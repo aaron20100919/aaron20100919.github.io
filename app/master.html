@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+ 
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML" async></script>
+    <title>主定理测试姬</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #F5F5F5;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .option-button {
+            transition: background-color 0.3s;
+        }
+
+        button {
+            outline: none !important;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function generateQuestion() {
+            var a = Math.floor(Math.random() * 5) + 2; // Generate a random value between 2 and 6 for "a"
+            var b = Math.floor(Math.random() * 3) + 2; // Generate a random value between 2 and 4 for "b"
+            var d = Math.floor(Math.random() * 3) + 1; // Generate a random value between 1 and 3 for "d"
+
+            var question = `如果有 <span class="math">\$T(n) = ${a}T(\\lceil \\frac{n}{${b}}\\rceil) + n^${d}\$</span>，那么有：`;
+            var options = [
+                `\$O(n^${d})\$`,
+                `\$O(n^${d} \\log n)\$`,
+                `\$O(n^{\\log_${b}${a}})\$`
+            ]
+
+            var correctAnswer;
+            if (d > Math.log(a) / Math.log(b)) {
+                correctAnswer = options[0];
+            } else if (d === Math.log(a) / Math.log(b)) {
+                correctAnswer = options[1];
+            } else {
+                correctAnswer = options[2];
+            }
+
+            options.sort(function() {
+                return (0.5-Math.random());
+            });
+
+            return {
+                question: question,
+                options: options,
+                correctAnswer: correctAnswer
+            };
+        }
+
+        function displayQuestion() {
+            var questionObj = generateQuestion();
+
+            var questionElement = document.getElementById("question");
+            questionElement.innerHTML = questionObj.question;
+
+            var optionsElement = document.getElementById("options");
+            optionsElement.innerHTML = "";
+
+            var options = questionObj.options;
+            for (var option in options) {
+                var buttonElement = document.createElement("button");
+                buttonElement.innerHTML = options[option];
+                buttonElement.title = options[option];
+                buttonElement.classList.add("btn");
+                buttonElement.classList.add("btn-default");
+                buttonElement.classList.add("btn-block");
+                buttonElement.classList.add("option-button");
+                optionsElement.appendChild(buttonElement);
+                buttonElement.addEventListener("click", checkAnswer);
+                if(buttonElement.innerHTML === questionObj.correctAnswer) {
+                    buttonElement.classList.add("correct");
+                }
+            }
+
+            var resultElement = document.getElementById("result");
+            resultElement.textContent = "";
+            var correctAnswerElement = document.getElementById("correctAnswer");
+            correctAnswerElement.textContent = "";
+            render();
+        }
+
+        function checkAnswer(event) {
+            var selectedOption = event.target;
+            while(!selectedOption.classList.contains('option-button')) {
+                selectedOption = selectedOption.parentElement;
+            }
+            var options = document.getElementsByClassName("option-button");
+
+            for (var i = 0; i < options.length; i++) {
+                options[i].style.backgroundColor = "#E0E0E0";
+            }
+            selectedOption.style.backgroundColor = "red";
+
+            var correctOption = document.querySelector(".correct");
+            correctOption.style.backgroundColor = "green";
+
+            var resultElement = document.getElementById("result");
+            resultElement.textContent = selectedOption.textContent === correctOption.textContent ? "回答正确！" : "回答错误！";
+            resultElement.style.color = selectedOption.textContent === correctOption.textContent ? "green" : "red";
+
+            var correctAnswerElement = document.getElementById("correctAnswer");
+            correctAnswerElement.textContent = `正确答案：${correctOption.title}`;
+            render();
+        }
+
+        // Render MathJax
+        window.addEventListener("load", render = function () {
+            window.MathJax.Hub.Config({
+                showProcessingMessages: false, //关闭js加载过程信息
+                messageStyle: "none", //不显示信息
+                jax: ["input/TeX", "output/HTML-CSS"],
+                tex2jax: {
+                    inlineMath: [["$", "$"], ["\\(", "\\)"]], //行内公式选择符
+                    displayMath: [["$$", "$$"], ["\\[", "\\]"]], //段内公式选择符
+                    skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"] //避开某些标签
+                },
+                "HTML-CSS": {
+                    availableFonts: ["STIX", "TeX"], //可选字体
+                    showMathMenu: false //关闭右击菜单显示
+                }
+            });
+            //下面第三个参数可以不写，默认对整个html内的latex进行翻译
+            window.MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <h3 class="text-center">
+                    主定理测试姬
+                    <p>本程序主要用于主定理的入门、巩固，如果你不会，欢迎访问：<a href="https://www.cnblogs.com/znpdco/p/17637016.html">我的博客</a>进行学习</p>
+                    <p id="question"></p>
+                </h3>
+            </div>
+        </div>
+        <div class="row clearfix options" id="options"></div>
+        <br/>
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <button type="button" class="btn btn-default btn-block btn-success" onclick="displayQuestion()">生成题目</button>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <p id="result" class="result"></p>
+                <p id="correctAnswer" class="result"></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        displayQuestion();
+    </script>
+</body>
+</html>
