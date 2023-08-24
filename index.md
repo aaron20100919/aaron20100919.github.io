@@ -2,8 +2,8 @@
 layouts: index
 ---
 
-# ZnPdCo
-ZnPdCo的博客
+# aaron0919
+aaron0919的博客
 
 <ul>
   {% for post in site.posts %}

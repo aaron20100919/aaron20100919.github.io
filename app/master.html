@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
- 
+
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
- 
+
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML" async></script>
@@ -36,6 +37,7 @@
         button {
             outline: none !important;
         }
+
         .result {
             margin-top: 20px;
             font-weight: bold;
@@ -63,8 +65,8 @@
                 correctAnswer = options[2];
             }
 
-            options.sort(function() {
-                return (0.5-Math.random());
+            options.sort(function () {
+                return (0.5 - Math.random());
             });
 
             return {
@@ -94,7 +96,7 @@
                 buttonElement.classList.add("option-button");
                 optionsElement.appendChild(buttonElement);
                 buttonElement.addEventListener("click", checkAnswer);
-                if(buttonElement.innerHTML === questionObj.correctAnswer) {
+                if (buttonElement.innerHTML === questionObj.correctAnswer) {
                     buttonElement.classList.add("correct");
                 }
             }
@@ -108,7 +110,7 @@
 
         function checkAnswer(event) {
             var selectedOption = event.target;
-            while(!selectedOption.classList.contains('option-button')) {
+            while (!selectedOption.classList.contains('option-button')) {
                 selectedOption = selectedOption.parentElement;
             }
             var options = document.getElementsByClassName("option-button");
@@ -151,22 +153,25 @@
         });
     </script>
 </head>
+
 <body>
     <div class="container">
         <div class="row clearfix">
             <div class="col-md-12 column">
                 <h3 class="text-center">
                     主定理测试姬
-                    <p>本程序主要用于主定理的入门、巩固，如果你不会，欢迎访问：<a href="https://www.cnblogs.com/znpdco/p/17637016.html">我的博客</a>进行学习</p>
+                    <p>本程序主要用于主定理的入门、巩固，如果你不会，欢迎访问：<a
+                            href="https://www.cnblogs.com/znpdco/p/17637016.html">ZnPdCo的博客</a>进行学习</p>
                     <p id="question"></p>
                 </h3>
             </div>
         </div>
         <div class="row clearfix options" id="options"></div>
-        <br/>
+        <br />
         <div class="row clearfix">
             <div class="col-md-12 column">
-                <button type="button" class="btn btn-default btn-block btn-success" onclick="displayQuestion()">生成题目</button>
+                <button type="button" class="btn btn-default btn-block btn-success"
+                    onclick="displayQuestion()">生成题目</button>
             </div>
         </div>
         <div class="row clearfix">
@@ -176,8 +181,10 @@
             </div>
         </div>
     </div>
+    <p style="position: absolute; right: 30px">by ZnPdCo</p>
     <script>
         displayQuestion();
     </script>
 </body>
+
 </html>
