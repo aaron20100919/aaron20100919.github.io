@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>推箱子游戏</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        #game-container {
+            display: grid;
+            grid-template-columns: repeat(5, 50px);
+            grid-template-rows: repeat(5, 50px);
+            gap: 1px;
+        }
+
+        .cell {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game-container"></div>
+    <script>
+        const gridWidth = 5;
+        const gridHeight = 5;
+        let playerPosition = { x: 1, y: 1 };
+        let boxes = [];
+        let targets = [];
+        let walls = [];
+        const history = [];
+        function storePreviousState() {
+            prevPlayerPosition = { ...playerPosition };
+            prevBoxes = boxes.map(box => ({ ...box }));
+        }
+        function generateRandomPosition() {
+            return { x: Math.floor(Math.random() * gridWidth), y: Math.floor(Math.random() * gridHeight) };
+        }
+        function generateRandomLevel() {
+            playerPosition = generateRandomPosition();
+            boxes = [];
+            targets = [];
+            walls = [];
+            // Generate random positions for boxes
+            while (boxes.length < 2) {
+                const newPosition = generateRandomPosition();
+                if (!isOccupied(newPosition)) {
+                    boxes.push(newPosition);
+                }
+            }
+            // Generate random positions for targets
+            while (targets.length < 2) {
+                const newPosition = generateRandomPosition();
+                if (!isOccupied(newPosition) && !boxes.some(box => box.x === newPosition.x && box.y === newPosition.y)) {
+                    targets.push(newPosition);
+                }
+            }
+            // Generate random positions for walls
+            while (walls.length < 4) {
+                const newPosition = generateRandomPosition();
+                if (!isOccupied(newPosition) && !boxes.some(box => box.x === newPosition.x && box.y === newPosition.y) && !targets.some(target => target.x === newPosition.x && target.y === newPosition.y)) {
+                    walls.push(newPosition);
+                }
+            }
+        }
+        function isOccupied(position) {
+            return (
+                position.x === playerPosition.x && position.y === playerPosition.y ||
+                boxes.some(box => box.x === position.x && box.y === position.y) ||
+                targets.some(target => target.x === position.x && target.y === position.y) ||
+                walls.some(wall => wall.x === position.x && wall.y === position.y)
+            );
+        }
+        generateRandomLevel();
+        function renderGame() {
+            const gameContainer = document.getElementById('game-container');
+            gameContainer.innerHTML = '';
+            for (let y = 0; y < gridHeight; y++) {
+                for (let x = 0; x < gridWidth; x++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    if (x === playerPosition.x && y === playerPosition.y) {
+                        cell.textContent = '🧑';
+                    } else if (boxes.some(box => box.x === x && box.y === y)) {
+                        cell.textContent = '📦';
+                    } else if (targets.some(target => target.x === x && target.y === y)) {
+                        cell.textContent = '🎯';
+                    } else if (walls.some(wall => wall.x === x && wall.y === y)) {
+                        cell.style.backgroundColor = '#999';
+                    }
+                    gameContainer.appendChild(cell);
+                }
+            }
+        }
+        function movePlayer(dx, dy) {
+            storePreviousState(); // 在移动前存储当前状态
+            const newPosition = { x: playerPosition.x + dx, y: playerPosition.y + dy };
+            if (!isWall(newPosition) && !isBox(newPosition)) {
+                playerPosition = newPosition;
+            } else if (isBox(newPosition)) {
+                const newBoxPosition = { x: newPosition.x + dx, y: newPosition.y + dy };
+                if (!isWall(newBoxPosition) && !isBox(newBoxPosition)) {
+                    const boxIndex = boxes.findIndex(box => box.x === newPosition.x && box.y === newPosition.y);
+                    boxes[boxIndex] = newBoxPosition;
+                    playerPosition = newPosition;
+                }
+            }
+            renderGame();
+            checkWin();
+        }
+        function isWall(position) {
+            return (
+                position.x < 0 ||
+                position.x >= gridWidth ||
+                position.y < 0 ||
+                position.y >= gridHeight ||
+                walls.some(wall => wall.x === position.x && wall.y === position.y)
+            );
+        }
+        function isBox(position) {
+            return boxes.some(box => box.x === position.x && box.y === position.y);
+        }
+        function showVictoryPopup() {
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+            popup.textContent = '胜利！';
+            document.body.appendChild(popup);
+            setTimeout(() => {
+                document.body.removeChild(popup);
+                generateRandomLevel();
+                resetGame();
+            }, 1000); // 一秒后自动隐藏并生成新关卡
+        }
+        function checkWin() {
+            const hasWon = boxes.every(box => targets.some(target => target.x === box.x && target.y === box.y));
+            if (hasWon) {
+                showVictoryPopup(); // 胜利时调用显示胜利弹框函数
+            }
+        }
+        document.addEventListener('keydown', event => {
+            switch (event.key) {
+                case 'ArrowUp':
+                case 'w':
+                    movePlayer(0, -1);
+                    break;
+                case 'ArrowDown':
+                case 's':
+                    movePlayer(0, 1);
+                    break;
+                case 'ArrowLeft':
+                case 'a':
+                    movePlayer(-1, 0);
+                    break;
+                case 'ArrowRight':
+                case 'd':
+                    movePlayer(1, 0);
+                    break;
+                case 'r': // Added reset functionality on 'r' key press
+                    resetGame();
+                    break;
+                case 'z': // Added undo functionality on 'z' key press
+                    undoMove();
+                    break;
+                case 'q':
+                case escape:
+                    window.opener = null;
+                    window.open('', '_self');
+                    window.close();
+                    break;
+                case 'e':
+                    generateRandomLevel();
+                    resetGame();
+                    break;
+            }
+        });
+        let prevPlayerPosition;
+        let prevBoxes;
+        function storePreviousState() {
+            const previousState = {
+                playerPosition: { ...playerPosition },
+                boxes: boxes.map(box => ({ ...box }))
+            };
+            history.push(previousState);
+        }
+        function undoMove() {
+            if (history.length > 0) {
+                const previousState = history.pop();
+                if (previousState) {
+                    playerPosition = previousState.playerPosition;
+                    boxes = previousState.boxes;
+                    renderGame();
+                }
+            }
+        }
+        function resetGame() {
+            history.length = 0
+            playerPosition = { x: 1, y: 1 };
+            boxes = [{ x: 3, y: 3 }, { x: 2, y: 2 }];
+            renderGame();
+        }
+        renderGame();
+    </script>
+</body>
+
+</html>
