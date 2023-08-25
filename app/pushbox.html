@@ -145,7 +145,7 @@
                 document.body.removeChild(popup);
                 generateRandomLevel();
                 resetGame();
-            }, 1000); // 一秒后自动隐藏并生成新关卡
+            }, 3000); // 一秒后自动隐藏并生成新关卡
         }
         function checkWin() {
             const hasWon = boxes.every(box => targets.some(target => target.x === box.x && target.y === box.y));
@@ -216,6 +216,7 @@
         }
         renderGame();
     </script>
+    <p style="position: absolute; bottom: 30px;">上下左右或asdw移动🧑, 将📦推进🎯, r键重玩, e键新建房间, q键退出, z键撤销(不保熟)</p>
 </body>
 
 </html>
