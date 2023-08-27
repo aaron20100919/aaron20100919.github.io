@@ -1,7 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jumper</title>
     <style>
         canvas {
             border: 1px solid white;
@@ -15,7 +20,7 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            font-size: 32px;
+            font-size: 10px;
             font-weight: bold;
         }
     </style>
@@ -83,14 +88,14 @@
         });
         function update() {
             // Movement
-            if (keys["ArrowLeft"] && mario.x > 0) {
+            if ((keys["ArrowLeft"] || keys["a"]) && mario.x > 0) {
                 mario.x -= mario.speed;
             }
-            if (keys["ArrowRight"] && mario.x + mario.width < canvas.width) {
+            if ((keys["ArrowRight"] || keys["d"]) && mario.x + mario.width < canvas.width) {
                 mario.x += mario.speed;
             }
             // Jumping
-            if (keys["ArrowUp"] && !mario.isJumping) {
+            if ((keys["ArrowUp"] || keys["w"]) && !mario.isJumping) {
                 mario.isJumping = true;
                 mario.yVelocity = -mario.jumpPower;
             }
@@ -220,7 +225,7 @@
             }
         });
     </script>
-    
+
 </body>
 
 </html>
