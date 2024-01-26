@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Image</title>
+</head>
+
+<body>
+    <img id="randomImage" alt="Random Image">
+
+    <script>
+        const imageArray = [];
+        for (let i = 1; i <= 1496; i++) {
+            imageArray.push(`https://aaron20100919.github.io/app/pic/${i}.jpg`);
+        }
+
+        const randomIndex = Math.floor(Math.random() * imageArray.length);
+
+        const randomImagePath = imageArray[randomIndex];
+
+        document.getElementById('randomImage').src = randomImagePath;
+    </script>
+</body>
+
+</html>
