@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>元胞自动机 - Conway's Game of Life with Controls</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+            cursor: crosshair;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="game-of-life" width="600" height="600"></canvas>
+    <button id="pause-resume-btn">暂停/继续</button>
+    <button id="clear-btn">清空画布</button>
+    <script>
+        const canvas = document.getElementById('game-of-life');
+        const ctx = canvas.getContext('2d');
+        const cellSize = 10; // 每个元胞的尺寸
+        let grid = Array.from({ length: Math.floor(canvas.width / cellSize) }, (_, y) => Array.from({ length: Math.floor(canvas.height / cellSize) }, (_, x) => (Math.random() < 0.6) ? 1 : 0));
+        const aliveColor = '#008000'; // 活元胞的颜色
+        const deadColor = '#FFFFFF'; // 死元胞的颜色
+        let isPaused = true; // 游戏是否暂停的标志
+
+        const pauseResumeButton = document.getElementById('pause-resume-btn');
+        pauseResumeButton.addEventListener('click', toggleGame);
+
+        const clearButton = document.getElementById('clear-btn');
+        clearButton.addEventListener('click', clearGrid);
+
+        function toggleGame() {
+            isPaused = !isPaused;
+            pauseResumeButton.textContent = isPaused ? '继续' : '暂停';
+        }
+
+        function clearGrid() {
+            grid = Array.from({ length: Math.floor(canvas.width / cellSize) }, (_, y) => Array.from({ length: Math.floor(canvas.height / cellSize) }, () => 0));
+            drawGrid();
+            isPaused = true; // 清空后自动暂停游戏
+            pauseResumeButton.textContent = '继续';
+        }
+
+        function drawGrid() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let y = 0; y < grid.length; y++) {
+                for (let x = 0; x < grid[y].length; x++) {
+                    ctx.fillStyle = grid[y][x] ? aliveColor : deadColor;
+                    ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                }
+            }
+        }
+
+        function countNeighbors(x, y) {
+            let count = 0;
+            for (let dy = -1; dy <= 1; dy++) {
+                for (let dx = -1; dx <= 1; dx++) {
+                    if (dx === 0 && dy === 0) continue;
+                    const newX = (x + dx + grid[y].length) % grid[y].length;
+                    const newY = (y + dy + grid.length) % grid.length;
+                    count += grid[newY][newX];
+                }
+            }
+            return count;
+        }
+
+        function updateGrid() {
+            const newGrid = grid.map((row, y) => row.map((cell, x) => {
+                const neighbors = countNeighbors(x, y);
+                if (cell) {
+                    return neighbors === 2 || neighbors === 3;
+                } else {
+                    return neighbors === 3;
+                }
+            }));
+            grid = newGrid;
+        }
+
+        function gameLoop() {
+            if (!isPaused) {
+                updateGrid();
+                drawGrid();
+            }
+            setTimeout(gameLoop, 100);
+        }
+
+        canvas.addEventListener('click', (event) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const indexX = Math.floor(x / cellSize);
+            const indexY = Math.floor(y / cellSize);
+            grid[indexY][indexX] = grid[indexY][indexX] ? 0 : 1; // 切换元胞状态
+            drawGrid(); // 重新绘制网格
+        });
+
+        drawGrid();
+        gameLoop();
+    </script>
+</body>
+
+</html>
