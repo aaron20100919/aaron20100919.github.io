@@ -51,7 +51,7 @@ if __name__ == "__main__":
                 os.path.join(display_path, name + ".html"),
             )
             cnt += 1
-            other += f"    {cnt}. [{get_title(path)}](/display/{name}.html)\n"
+            other += f"    {cnt}. [{get_title(path)}](/slide/display/{name}.html)\n"
 
     template += other
 

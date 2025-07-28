@@ -24,8 +24,8 @@
 - |
     ## 杂项
 
-    1. [乱讲珂朵莉树](/display/OTD.html)
-    2. [手写幻灯片渲染器！！](/display/slide.html)
+    1. [乱讲珂朵莉树](/slide/display/OTD.html)
+    2. [手写幻灯片渲染器！！](/slide/display/slide.html)
 
 - |
     # That's all!
