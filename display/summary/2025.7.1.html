@@ -1,67 +1,8 @@
-import os, re
-
-
-def get_title(filename):
-    with open(filename, "r", encoding="utf-8") as f:
-        content = f.read()
-        res = re.search(r"# (.+)\n", content)
-        if res:
-            return res.group(1)
-        else:
-            return re.sub(r"\.md$", "", os.path.basename(filename))
-
-
-def delete_files(directory):
-    if not os.path.exists(directory):
-        return
-    file_list = os.listdir(directory)
-    for file in file_list:
-        file_path = os.path.join(directory, file)
-        if os.path.isfile(file_path):
-            os.remove(file_path)
-        else:
-            delete_files(file_path)
-
-
-index_template = """---
-- children:
-    - |
-        # Doctor. Aaron's 极简博客
-
-        Welcome to my blog!!!
-
-        > 本博客基于 `HTML5, CSS3, javascript, python` 等技术实现，欢迎访问！
-
-        向右切幻灯片就是博客内容了，非常低级...
-        
-        全屏使用更佳
-
-    - |
-        ## 一些说明
-
-        ~~其实就是纯手写，没有任何第三方库和样式，纯粹的原生`HTML5+CSS3+JS`~~
-
-        ~~`python` 是用来线下手动渲染的...~~
-
-        中英文标点符号混用.。.会显得很奇怪，但懒得改了.
-
-        关于幻灯片渲染是因为觉得 UOJ 的幻灯片渲染太高级了，闲的蛋疼就自己弄了一个...
-
-        [免费体验](app/slide.html)
-- |
-    主要内容：
-    
-    不定期更新有用没用有卵用没卵用自己捣鼓的垃圾项目。
-    
-    偶尔会写一些总结，总之会慢慢充实起来的。
-"""
-
-
-slide_template = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
-    <title>{{title}}</title>
+    <title>2025年7月单周总结1</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
@@ -490,9 +431,57 @@ slide_template = """<!DOCTYPE html>
 
 <body>
     <div class="container">
-        <div id="title">{{title}}</div>
+        <div id="title">2025年7月单周总结1</div>
 
-        <textarea id="slide-content">{{content}}</textarea>
+        <textarea id="slide-content">---
+- |
+    ## 2025年7月单周总结1
+    
+    其实从 7.29 开始，因为这是新博客的第一个总结。
+
+    因为一不小心写成幻灯片了，所以每周扔进一个幻灯片里。
+- children:
+    - |
+        ### 7.29 总结
+
+        总评：题目很抽象，都是 NOI+ 的难度，死磕 T1 4 个小时，还是挂了。。。
+
+        $15 + (42\to25) + (15\to0) = (72\to40)$
+
+        收获：
+        
+        1. 注意 `long long`（怎么还犯这种低级错误）
+        2. 不要交错题
+
+    - |
+        #### [T1](https://www.luogu.com.cn/problem/P10644)
+
+        砂壁构造，还加砂壁子任务捆绑，给了 $N=M$ 的部分分。
+
+        然后我打出了 $N\neq M$ 的部分。。。
+
+        平均每个 $\text{Subtask}$ 过了 $\dfrac{1}{3}$ 。。。
+
+        最后乱打了个 $N=M$ 的部分（脑抽随便打的），某明奇妙拿了 $15$ 分。。
+
+        已经改成了 $49$ 分了，不知道是什么逆天子任务组合。。
+
+    - |
+        #### [T2](https://www.luogu.com.cn/problem/P11118)
+
+        挺谜语人体面的。。。
+
+        > 在比赛中，所有无人机从其存档点开始移动，直到有一架或多架无人机到达一个门（有可能是不同无人机同时到达不同的门）。此时，在所有到达门的无人机中，选择编号最小的无人机，对该无人机进行存档操作，将其存档点设置为当前的位置。其他无人机立即传送到其存档点。然后，比赛继续进行。
+
+        照着模拟，$25$ 分。
+
+        还有 $8+9=17$ 的部分分，没开 `long long`，似了。
+
+    - |
+        #### [T3](https://www.luogu.com.cn/problem/P4775)
+
+        打 T1 太激动了，交错了。。
+</textarea>
 
         <div class="button-container">
             <button id="preview-btn">预览</button>
@@ -995,4 +984,3 @@ slide_template = """<!DOCTYPE html>
 </body>
 
 </html>
-"""
