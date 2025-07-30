@@ -426,7 +426,6 @@
             position: absolute;
             top: 20px;
             left: 0px;
-            z-index: 9999;
             padding: 10px;
             border-radius: 12%;
             font-size: larger;
@@ -453,7 +452,6 @@
             position: absolute;
             top: 66px;
             left: 0px;
-            z-index: 9999;
             background-color: #e7e7e7;
             display: flex;
             align-items: center;
@@ -470,9 +468,10 @@
             &nbsp;Aaron20100919
         </a>
         <div class="bars">
-            <a href="https://aaron20100919.github.io" style="font-size: 25px; color: #333;">Home</a>&nbsp;&nbsp;&nbsp;
+            <a href="https://aaron20100919.github.io"
+                style="font-size: 25px; max-width: none; color: #333;">Home</a>&nbsp;&nbsp;&nbsp;
             <a href="https://github.com/aaron20100919/aaron20100919.github.io/blob/main/app/slide.html"
-                style="font-size: 25px; color: #333;">See source</a>
+                style="font-size: 25px; max-width: none; color: #333;">See source</a>
         </div>
         <div id="title">幻灯片编辑器</div>
 
@@ -1020,6 +1019,15 @@
             renderSlides();
         });
     </script>
+
+
+    <footer style="text-align: center; margin-top: 50px;">
+        <p style="font-size: 16px; max-width: none; color: black; ">Author with All Copyrights Reserved</p>
+        <a href="https://github.com/aaron20100919" target="_blank" rel="noopener noreferrer"
+            style="font-size: 16px; max-width: none; color: rgb(76, 204, 229); ">
+            Aaron20100919
+        </a>
+    </footer>
 </body>
 
 </html>

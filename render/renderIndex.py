@@ -33,7 +33,7 @@ if __name__ == "__main__":
                 )
                 cnt += 1
                 htmls += (
-                    f"    {cnt}. [{get_title(path)}](/display/{folder}/{name}.html)\n"
+                    f"    {cnt} . [{get_title(path)}](/display/{folder}/{name}.html)\n"
                 )
 
         index_template += htmls
