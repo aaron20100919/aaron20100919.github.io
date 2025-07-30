@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
     <style>
         :root {
-            --max-width: 33%;
+            --max-width: 30%;
         }
 
         body {
@@ -469,7 +469,7 @@
 <body>
     <div class="container">
         <a href="https://github.com/aaron20100919" class="github-corner" target="_blank" rel="noopener noreferrer">
-            <img src="./gravatar.png" alt="GitHub" class="github-avatar">
+            <img src="/gravatar.png" alt="GitHub" class="github-avatar">
             &nbsp;Aaron20100919
         </a>
         <div class="bars">
@@ -515,14 +515,20 @@
         纵向查看
 
     - |
-        ### 2025.7.29
+        ### 2025.7.30
 
         `render\renderIndex.py` 支持嵌套多层了(最好小于 6 层).
 
         重构了整个目录结构.
 
+        缩小头像体积, 加载更快.
+
+        修了修最大宽度.
+
+        将 `build.bat` 拆成两个部分.
+
     - |
-        ### 2025.7.28
+        ### 2025.7.29
 
         润色了一下 `style`, 同时增加了左上角我帅气的头像和朴素导航栏.
 
@@ -533,7 +539,7 @@
         新增 `build.bat`, 简单化上传.
 
     - |
-        ### 2025.7.27
+        ### 2025.7.28
 
         直接通过 `slide.html` 乱写了一个博客...
 
@@ -541,14 +547,16 @@
 - |
     ## other
     
-    1 [乱讲珂朵莉树](/display/other/OTD.html)
+    1 [如何搭建一个像这样的博客](/display/other/build.html)
 
-    2 [手写幻灯片渲染器！！](/display/other/slide.html)
+    2 [乱讲珂朵莉树](/display/other/OTD.html)
+
+    3 [手写幻灯片渲染器！！](/display/other/slide.html)
 
 - |
     #### summary/2025/7
     
-    1 [2025.7.29](/display/summary/2025/7/2025.7.29.html)
+    1 [7.29 总结](/display/summary/2025/7/2025.7.29.html)
 
 
 - |
@@ -791,7 +799,7 @@
                         listItemStates[0] = { current: 0, max: 0 };
                     }
 
-                    updateMaxWidth(`${99 / slides.length}%`);
+                    updateMaxWidth(`${90 / slides.length}%`);
                     updateSlideDisplay();
                     if (document.body.classList.contains('fullscreen-active')) {
                         updateFullscreenDisplay();
