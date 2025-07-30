@@ -23,48 +23,16 @@ def delete_files(directory):
             delete_files(file_path)
 
 
-index_template = """---
-- children:
-    - |
-        # Aaron's 极简博客
-
-        > 本博客基于 `HTML5, CSS3, javascript, python` 等技术实现，欢迎访问！
-
-        向右切幻灯片就是博客内容了，非常低级...
-
-        不定期更新有用没用有卵用没卵用自己捣鼓的垃圾项目。
-
-        偶尔会写一些总结，总之会慢慢充实起来的。
-
-        !!!全屏使用更佳!!!
-
-    - |
-        ## 一些说明
-
-        ~~其实就是纯手写，没有任何第三方库和样式，纯粹的原生`HTML5+CSS3+JS`~~
-
-        ~~`python` 是用来线下手动渲染的...~~
-
-        中英文标点符号混用.。.会显得很奇怪，但懒得改了.
-
-        关于幻灯片渲染是因为觉得 UOJ 的幻灯片渲染太高级了，闲的蛋疼就自己弄了一个...
-
-        [免费体验](app/slide.html)
-"""
+with open("head.md", "r", encoding="utf-8") as f:
+    index_template = f.read()
 
 with open("update.md", "r", encoding="utf-8") as f:
     update = f.read()
 
 index_template += update
 
-
-end_of_index = """
-- |
-    # 结束了?
-    > 确实, 但内容会渐渐多的...
-    
-    希望大家多多点个 $\text{Star}$ 吧~
-"""
+with open("end.md", "r", encoding="utf-8") as f:
+    end_of_index = f.read()
 
 source_path = r"./source"
 display_path = r"./display"

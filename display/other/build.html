@@ -506,6 +506,8 @@
 - |
     ## 如何改成自己的博客
 
+    请确保主目录下的 `*.md` 都在, 以及 `example.html` 也不能删, 一定要保留 `render` 和 `source` 目录.
+
     你需要修改的部分有:
 
     1. 搜索 `https://cdn.luogu.com.cn/upload/image_hosting/30orb1d0.png` 并换成你的头像
@@ -514,7 +516,7 @@
     4. 清空 `source` 下的内容, 如果你要写, 请务必再建一层目录
     5. 想要修改页面样式请修改 `example.html` 中的内容
     6. 想要修改更新日志请修改 `update.md` 中的内容
-    7. 想要修改 `index.html` 的内容请修改 `render/useful.py` 中的内容
+    7. 想要修改 `index.html` 的内容请修改 `head.md` 和 `end.md` 中的内容
 
 - |
     ## 注意事项
@@ -532,6 +534,11 @@
     引用图片可以放在 `image` 里, 写了 `html` 网页就放 `app` 里, 剩下的最好不要动
 
     >> $\text{\color{red}一定要先 build, 在 push!!}$
+
+- |
+    ### 一些奇奇怪怪但是需要注意的事
+
+    `display` 目录和 `index.html` 都是通过 `build` 自动更新的, 不要改错了...
 </textarea>
 
         <div class="button-container">
