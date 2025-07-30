@@ -40,4 +40,6 @@
 
     写完后可先本地 `build.bat`, 然后本地看看, 没问题就 `push.bat`
 
+    引用图片可以放在 `image` 里, 写了 `html` 网页就放 `app` 里, 剩下的最好不要动
+
     >> $\text{\color{red}一定要先 build, 在 push!!}$
