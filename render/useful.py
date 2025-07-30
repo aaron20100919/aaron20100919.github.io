@@ -26,15 +26,17 @@ def delete_files(directory):
 index_template = """---
 - children:
     - |
-        # Doctor. Aaron's 极简博客
-
-        Welcome to my blog!!!
+        # Aaron's 极简博客
 
         > 本博客基于 `HTML5, CSS3, javascript, python` 等技术实现，欢迎访问！
 
         向右切幻灯片就是博客内容了，非常低级...
-        
-        全屏使用更佳
+
+        不定期更新有用没用有卵用没卵用自己捣鼓的垃圾项目。
+
+        偶尔会写一些总结，总之会慢慢充实起来的。
+
+        !!!全屏使用更佳!!!
 
     - |
         ## 一些说明
@@ -48,14 +50,24 @@ index_template = """---
         关于幻灯片渲染是因为觉得 UOJ 的幻灯片渲染太高级了，闲的蛋疼就自己弄了一个...
 
         [免费体验](app/slide.html)
-- |
-    主要内容：
-    
-    不定期更新有用没用有卵用没卵用自己捣鼓的垃圾项目。
-    
-    偶尔会写一些总结，总之会慢慢充实起来的。
 """
 
+with open("update.md", "r", encoding="utf-8") as f:
+    update = f.read()
+
+index_template += update
+
+
+end_of_index = """
+- |
+    # 结束了?
+    > 确实, 但内容会渐渐多的...
+    
+    希望大家多多点个 $\text{Star}$ 吧~
+"""
+
+source_path = r"./source"
+display_path = r"./display"
 
 with open("example.html", "r", encoding="utf-8") as f:
     slide_template = f.read()

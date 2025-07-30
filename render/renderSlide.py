@@ -6,8 +6,7 @@ def render_slide(input_file, output_file):
     with open(input_file, "r", encoding="utf-8") as f:
         content = f.read()
         title = get_title(input_file)
-        if not os.path.exists(os.path.dirname(output_file)):
-            os.mkdir(os.path.dirname(output_file))
+        os.makedirs(os.path.dirname(output_file), exist_ok=True)
         with open(output_file, "w", encoding="utf-8") as f:
             f.write(
                 slide_template.replace("{{title}}", title).replace(

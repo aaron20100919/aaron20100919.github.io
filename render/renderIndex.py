@@ -2,45 +2,41 @@ import os, renderSlide
 from useful import *
 
 
-if __name__ == "__main__":
-    source_path = "source"
-    source_folders = os.listdir(source_path)
-
-    print(source_folders)
-
-    display_path = "display"
-    delete_files(display_path)
-
-    for folder in source_folders:
-        htmls = f"""- |
-    ## {folder}
-
+def render(allpath, prepath, depth):
+    global index_template
+    things = os.listdir(allpath)
+    # print(allpath, things)
+    cnt = 0
+    prepath = prepath.replace("\\", "/")
+    htmls = f"""- |
+    {"#" * depth} {prepath}
+    
 """
-
-        folder_path = os.path.join(source_path, folder)
-        source_files = os.listdir(folder_path)
-
-        cnt = 0
-
-        for file in source_files:
-            if file.endswith(".md"):
-                name = file[:-3]
-                path = os.path.join(folder_path, file)
-                print(path, os.path.join(display_path, folder, name + ".html"))
-                renderSlide.render_slide(
-                    path,
-                    os.path.join(display_path, folder, name + ".html"),
-                )
+    for thing in things:
+        path = os.path.join(allpath, thing)
+        if os.path.isdir(path):
+            render(path, os.path.join(prepath, thing), depth + 1)
+        else:
+            if thing.endswith(".md"):
+                name = thing[:-3]
+                output_path = os.path.join(display_path, prepath, name + ".html")
+                print(path.replace("\\", "/"), output_path.replace("\\", "/"))
+                renderSlide.render_slide(path, output_path)
                 cnt += 1
-                htmls += f"    {cnt} . [{get_title(path)}](/display/{folder}/{name}.html)\n\n"
+                htmls += (
+                    f"    {cnt} [{get_title(path)}](/display/{prepath}/{name}.html)\n\n"
+                )
 
+    if cnt > 0:
         index_template += htmls
 
-    index_template += """
-- |
-    # That's all!
-    > Thanks for your visit!
-"""
+
+if __name__ == "__main__":
+    delete_files(display_path)
+
+    render(source_path, "", 1)
+
+    index_template += end_of_index
 
     with open("index.md", "w", encoding="utf-8") as f:
         f.write(index_template)
