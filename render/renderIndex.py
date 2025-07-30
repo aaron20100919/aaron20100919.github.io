@@ -32,9 +32,7 @@ if __name__ == "__main__":
                     os.path.join(display_path, folder, name + ".html"),
                 )
                 cnt += 1
-                htmls += (
-                    f"    {cnt} . [{get_title(path)}](/display/{folder}/{name}.html)\n"
-                )
+                htmls += f"    {cnt} . [{get_title(path)}](/display/{folder}/{name}.html)\n\n"
 
         index_template += htmls
 
