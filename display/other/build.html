@@ -19,6 +19,22 @@
             line-height: 1.6;
         }
 
+        table {
+            color: rgb(206, 236, 237);
+            background-color: rgb(94, 141, 153);
+            padding: -1px;
+        }
+
+        th {
+            border-left: #f2f2f2 1px solid;
+            border-top: #f2f2f2 1px solid;
+        }
+
+        td {
+            border-left: #f2f2f2 1px solid;
+            border-top: #f2f2f2 1px solid;
+        }
+
         img {
             max-width: 100%;
         }
@@ -996,6 +1012,7 @@
             fullscreenBtn.addEventListener('click', enterFullscreen);
             exitFullscreenBtn.addEventListener('click', exitFullscreen);
 
+            /*
             document.addEventListener('keydown', (e) => {
                 switch (e.key) {
                     case 'ArrowLeft':
@@ -1029,6 +1046,7 @@
                         break;
                 }
             });
+            */
 
             leftBtn.addEventListener('click', () => navigate('left'));
             rightBtn.addEventListener('click', () => navigate('right'));

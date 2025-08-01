@@ -19,6 +19,22 @@
             line-height: 1.6;
         }
 
+        table {
+            color: rgb(206, 236, 237);
+            background-color: rgb(94, 141, 153);
+            padding: -1px;
+        }
+
+        th {
+            border-left: #f2f2f2 1px solid;
+            border-top: #f2f2f2 1px solid;
+        }
+
+        td {
+            border-left: #f2f2f2 1px solid;
+            border-top: #f2f2f2 1px solid;
+        }
+
         img {
             max-width: 100%;
         }
@@ -538,6 +554,14 @@
 
     - |
 
+        ### 2025.8.1
+
+        增加表格样式(还是很丑)
+
+        删除了上下左右键导航.
+
+    - |
+
         ### 2025.7.31
 
         增加评论, 由 giscus 支持.
@@ -591,6 +615,11 @@
     1 [7.29 总结](/display/summary/2025/7/2025.7.29.html)
 
     2 [7.30 总结](/display/summary/2025/7/2025.7.30.html)
+
+- |
+    #### summary/2025/8
+    
+    1 [8.1 总结](/display/summary/2025/8/2025.8.1.html)
 
 - |
     # 结束了?
@@ -1054,6 +1083,7 @@
             fullscreenBtn.addEventListener('click', enterFullscreen);
             exitFullscreenBtn.addEventListener('click', exitFullscreen);
 
+            /*
             document.addEventListener('keydown', (e) => {
                 switch (e.key) {
                     case 'ArrowLeft':
@@ -1087,6 +1117,7 @@
                         break;
                 }
             });
+            */
 
             leftBtn.addEventListener('click', () => navigate('left'));
             rightBtn.addEventListener('click', () => navigate('right'));
