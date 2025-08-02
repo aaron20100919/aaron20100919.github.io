@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-    <title>8.1 总结</title>
+    <title>AT_abc417_f の题解</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
@@ -521,164 +521,184 @@
                 style="font-size: 25px; max-width: none; color: #333;">See
                 source</a>
         </div>
-        <div id="title">8.1 总结</div>
+        <div id="title">AT_abc417_f の题解</div>
 
         <textarea id="slide-content">---
 - |
-    ### 8.1 总结
+    # AT_abc417_f の题解
 
-    打挂了.
-
-    T1 $100\to70$
-
-    又是低级错误, 模数挂了...
-
-- children:
-    - |
-        #### T1
-
-        垃圾找规律.
-
-    - |
-        题目大意:
-
-        > 有一张 $n$ 个点的有向图，一开始对于 $i=1,2,\dots,n-1$，$i$ 向 $i+1$ 连了一条边。
-        接下来，你可以向图中再加入至多 $m$ 条有向边。允许产生重边、自环。
-        然后你从结点 $1$ 开始，在图上随机游走。
-        随机游走的方式为：假定当前结点出度为 $d$，则从 $d$ 条出边中以 $\frac{1}{d}$ 的概率均匀随机选择一条出边，并走向这条出边的终点。
-        当游走至结点 $n$ 时，停止游走。
-        你想要在加边时最大化期望的游走时间。
-        输出最大的期望时间对 $p$ 取模的值，数据保证答案在模 $p$ 意义下存在。
-
-        <div class="warning" style="
-            background-color: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
-        ">
-        <details open>
-        <summary style="font-weight: bold; cursor: pointer;">警告</summary>
-        <div style="margin-top: 10px;">
-
-        $\large\color{red}模 p$
-        </div>
-        </details>
-        </div>
-
-    - |
-        正解:
-
-        找规律, 用等比数列求和或矩阵快速幂.
-
-        我 11:25 时找到规律, 因为 11:40 就要结束了, 就拷了个矩乘板子.
-
-        结果忘改模数了, 主要还是因为没吃早餐, 饿的头昏眼花...
+    简单线段树板题。
 
 - |
-    #### T2
 
-    放了一堆图片, 根本点不进去, 太卡了!!!
+    ## 题意
 
-    https://www.luogu.com.cn/problem/P8554
-
-    但是数据拉到了 $n=7000$, 我改的 $O(108N^2)$ 连 $3000$ 都过不去, 太丢人了...
-
-    发现直接计数很难, 考虑将其与一个颜色序列建立双射, 对颜色序列技术即可.
-
-    需要状态压缩, 否则常数过大, 需要 $108\to11$ ...
-
-- children:
-    - |
-        #### T3
-
-        神奇普及组题目...
-
-        https://uoj.ac/problem/659
-
-        只用了树剖(可以只用倍增), ~~但我两个都不会.~~
-
-    - |
-
-        直接看数据范围(数据中第4个子任务性质错了...竟然是B性质):
-
-        | 子任务编号 |    $n \leq$     |    $q \leq$     | $op \leq$ |  特殊性质  | 分值  |
-        | :--------: | :-------------: | :-------------: | :-------: | :--------: | :---: |
-        |    $1$     |     $3000$      |     $5000$      |    $1$    |     无     |  $3$  |
-        |    $2$     | $5 \times 10^4$ | $2 \times 10^5$ |    $0$    | $\text{A}$ |  $7$  |
-        |    $3$     | $5 \times 10^4$ | $2 \times 10^5$ |    $1$    | $\text{A}$ | $10$  |
-        |    $4$     | $1\times 10^5$  | $4 \times 10^5$ |    $1$    | $\text{A}$ | $15$  |
-        |    $5$     | $1\times 10^5$  | $6 \times 10^5$ |    $1$    | $\text{B}$ |  $5$  |
-        |    $6$     | $5 \times 10^4$ | $2 \times 10^5$ |    $0$    |     无     | $10$  |
-        |    $7$     | $1\times 10^5$  | $4 \times 10^5$ |    $0$    |     无     | $10$  |
-        |    $8$     | $5 \times 10^4$ | $2 \times 10^5$ |    $1$    |     无     | $14$  |
-        |    $9$     | $1\times 10^5$  | $6 \times 10^5$ |    $1$    |     无     | $16$  |
-        |    $10$    | $2\times 10^5$  | $1 \times 10^6$ |    $1$    |     无     | $10$  |
-
-        关于 $O(nq)+B$ 有前 $5$ 档这件事
-
-    - |
-        观察 $3$ 分代码:
-
-        ```cpp
-        for (int i = x; i <= y; ++i)
-        {
-            if (ch[i] == '&')
-            {
-                v &= a[i];
-            }
-            else if (ch[i] == '|')
-            {
-                v |= a[i];
-            }
-            else if (ch[i] == '^')
-            {
-                v ^= a[i];
-            }
-            else if (ch[i] == '+')
-            {
-                v += 1;
-            }
-        }
-        ```
-
-        改成
-
-    - |
-
-        ```cpp
-        for (int i = x; i <= y; ++i)
-        {
-            if (ch[i] == '&')
-            {
-                v &= a[i];
-            }
-            else if (ch[i] == '|')
-            {
-                v |= a[i];
-            }
-            else if (ch[i] == '^')
-            {
-                v ^= a[i];
-            }
-            else /* if (ch[i] == '+') */
-            {
-                // v += 1;
-                v += a[i];
-            }
-        }
-        ```
-
-        就多了 $17$ 分...
-
-        真无语...
+    有 $N$ 个盘子初始各有石子，进行 $M$ 次操作，每次操作移除区间 $[L_i, R_i]$ 内所有石子的总和，并随机选一个该区间内的盘子放回这些石子，求最终每个盘子的期望石子数，结果模 $998244353$。
 
 - |
-    ### 总评
 
-    还是要吃早餐...
+    ## 分析
 
-    一定要注意常数...</textarea>
+    实际上随机选一个就等价于平均分了，所以考虑用线段树实现。
+
+- |
+
+    ## 实现
+
+    需要实现区间推平，区间求和，打起来还是很简单的。
+
+    注意取模，我就因为这个吃了 $3$ 发罚时。
+
+- |
+
+    ## 补充
+
+    为了提高效率，我通常都会 `define` 一堆东西，有需要的自取，打起来就很爽。
+
+    ```cpp
+    #define mid (l + r) / 2
+    #define ls (u << 1)
+    #define rs (ls | 1)
+    #define tu t[u]
+    #define lu t[ls]
+    #define ru t[rs]
+    #define fl ls, l, mid
+    #define fr rs, mid + 1, r
+    ```
+
+- |
+
+    ## code
+
+    可以滚动。
+
+    ```cpp
+    #include <bits/stdc++.h>
+    using namespace std;
+    using ll = long long;
+    #define int ll
+
+    const int N = 1e6 + 10;
+    const int INF = 1e18;
+    const int MOD = 998244353;
+
+    int n, m;
+    int a[N], t[N][2];
+
+    #define mid (l + r) / 2
+    #define ls (u << 1)
+    #define rs (ls | 1)
+    #define tu t[u]
+    #define lu t[ls]
+    #define ru t[rs]
+    #define fl ls, l, mid
+    #define fr rs, mid + 1, r
+
+    ll qpow(ll a, ll b = MOD - 2)
+    {
+        ll res = 1;
+        while (b)
+        {
+            if (b & 1)
+            {
+                res = res * a % MOD;
+            }
+            a = a * a % MOD;
+            b >>= 1;
+        }
+        return res;
+    }
+
+    void pushup(int u)
+    {
+        tu[0] = (lu[0] + ru[0]) % MOD;
+    }
+
+    void pushdown(int u, int l, int r)
+    {
+        if (tu[1])
+        {
+            lu[0] = (mid - l + 1) * tu[1] % MOD;
+            ru[0] = (r - mid) * tu[1] % MOD;
+            lu[1] = ru[1] = tu[1];
+            tu[1] = 0;
+        }
+    }
+
+    void build(int u, int l, int r)
+    {
+        if (l == r)
+        {
+            tu[0] = a[l];
+            return;
+        }
+        build(fl), build(fr);
+        pushup(u);
+    }
+
+    void update(int u, int l, int r, int ql, int qr, int z)
+    {
+        if (ql <= l && r <= qr)
+        {
+            tu[0] = (r - l + 1) * z % MOD;
+            tu[1] = z;
+            return;
+        }
+        if (qr < l || r < ql)
+        {
+            return;
+        }
+        pushdown(u, l, r);
+        update(fl, ql, qr, z), update(fr, ql, qr, z);
+        pushup(u);
+    }
+
+    int query(int u, int l, int r, int ql, int qr)
+    {
+        if (ql <= l && r <= qr)
+        {
+            return tu[0];
+        }
+        if (qr < l || r < ql)
+        {
+            return 0;
+        }
+        pushdown(u, l, r);
+        return (query(fl, ql, qr) + query(fr, ql, qr)) % MOD;
+    }
+
+    void print(int u, int l, int r)
+    {
+        if (l == r)
+        {
+            cout << tu[0] << ' ';
+            return;
+        }
+        pushdown(u, l, r);
+        print(fl), print(fr);
+    }
+
+    signed main()
+    {
+        cin.tie(0)->sync_with_stdio(false), cout.setf(ios::fixed), cout.precision(10);
+
+        cin >> n >> m;
+        for (int i = 1; i <= n; i++)
+        {
+            cin >> a[i];
+        }
+        build(1, 1, n);
+        for (int i = 1, l, r; i <= m; i++)
+        {
+            cin >> l >> r;
+            int sum = query(1, 1, n, l, r);
+            update(1, 1, n, l, r, sum * qpow(r - l + 1) % MOD);
+        }
+        print(1, 1, n);
+
+        return 0;
+    }
+    ```</textarea>
 
         <div class="button-container">
             <button id="preview-btn">预览</button>

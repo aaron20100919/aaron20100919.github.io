@@ -20,19 +20,39 @@
         }
 
         table {
-            color: rgb(206, 236, 237);
-            background-color: rgb(94, 141, 153);
-            padding: -1px;
+            border-collapse: collapse;
+            max-width: var(--max-width);
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
         }
 
-        th {
-            border-left: #f2f2f2 1px solid;
-            border-top: #f2f2f2 1px solid;
+        table thead tr {
+            background-color: #90a09d;
+            color: #ffffff;
         }
 
-        td {
-            border-left: #f2f2f2 1px solid;
-            border-top: #f2f2f2 1px solid;
+        table th,
+        table td {
+            padding: 8px 12px;
+            border: 1px solid #dddddd;
+        }
+
+        table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        table tbody tr:nth-of-type(odd) {
+            background-color: #c6c6c6;
+        }
+
+        table tbody tr:last-of-type {
+            border-bottom: 2px solid #c3c3c3;
         }
 
         img {
@@ -175,7 +195,7 @@
         }
 
         .slide {
-            background-color: rgb(85, 134, 146);
+            background-color: rgb(28, 96, 113);
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -550,7 +570,17 @@
         可能会做的更新:
 
         1. 手写一个看板娘
-        2. 将 `style` 扔进一个文件夹
+        2. 增加置顶顺序
+        3. 将 `style` 扔进一个文件夹
+
+    - |
+
+        ### 2025.8.2
+
+        | 编号  |           内容           |
+        | :---: | :----------------------: |
+        |   1   | 修了修表格样式, 好看多了 |
+        |   2   |  换了个背景色, 像人样了  |
 
     - |
 
@@ -609,6 +639,8 @@
 
     3 [手写幻灯片渲染器！！](/display/other/slide.html)
 
+    4 [每日犇犇(发泄)](/display/other/wreak.html)
+
 - |
     #### summary/2025/7
     
@@ -620,6 +652,16 @@
     #### summary/2025/8
     
     1 [8.1 总结](/display/summary/2025/8/2025.8.1.html)
+
+- |
+    ## summary
+    
+    1 [ABC 略结](/display/summary/abc.html)
+
+- |
+    ## tutorial
+    
+    1 [AT_abc417_f の题解](/display/tutorial/AT_abc417_f.html)
 
 - |
     # 结束了?
