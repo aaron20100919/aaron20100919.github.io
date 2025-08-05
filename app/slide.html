@@ -19,6 +19,42 @@
             line-height: 1.6;
         }
 
+        table {
+            border-collapse: collapse;
+            max-width: var(--max-width);
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+
+        table thead tr {
+            background-color: #90a09d;
+            color: #ffffff;
+        }
+
+        table th,
+        table td {
+            padding: 8px 12px;
+            border: 1px solid #dddddd;
+        }
+
+        table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        table tbody tr:nth-of-type(odd) {
+            background-color: #f3f3f3;
+        }
+
+        table tbody tr:nth-of-type(even) {
+            background-color: #c6c6c6;
+        }
+
+        table tbody tr:last-of-type {
+            border-bottom: 2px solid #c3c3c3;
+        }
+
         img {
             max-width: 100%;
         }
@@ -60,6 +96,11 @@
             word-wrap: break-word;
             word-break: break-all;
             max-width: var(--max-width);
+        }
+
+        .katex-display {
+            max-width: var(--max-width);
+            color: rgb(206, 236, 237);
         }
 
         li {
@@ -152,7 +193,7 @@
         }
 
         .slide {
-            background-color: rgb(85, 134, 146);
+            background-color: rgb(28, 96, 113);
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -485,29 +526,35 @@
 - |
     # 这是使用实例
 
-    你可以试试
-
     ### 第一页
 
-    Created by [@Aaron0919](https://www.luogu.com.cn/user/818165)
+    你可以试试，语法就照着这个打。
+
+    同时也支持 html 标签，[详情](https://aaron20100919.github.io/display/other/box.html)
+
+    你能找的到竖着的第二页吗？
+
 - children:
     - |
         ### 第二页
+
+        祝你
+
         1. AK CSP-J
         2. AK CSP-S
         3. AK NOIP
         4. AK NOI
         5. AK IOI
         
-        $Author: {\color{red}A}{\color{black}aron0919}$
+        > Author: ${\color{red}A}{\color{black}aron0919}$
     - |
         ### 竖着第二页
         - 114514
         - 1919810
 
-        好玩吗???
+        好玩吗???列表，图片标题公式引用都能正常渲染。
 
-        ![Aaron0919](https://cdn.luogu.com.cn/upload/usericon/818165.png)
+        ![炸弹熊](http://img.uoj.ac/utility/bear-bomb.gif)
 - |
     ### 第三页
     >> 其实也可以写代码
@@ -525,7 +572,27 @@
 
     **你能编译的过?**
 
-    ~~能过我吃...~~</textarea>
+    ~~能过我吃...~~
+- |
+    ### 第四页
+    大串公式也是可以的：
+
+    $$
+    \begin{pmatrix}
+    1 & 2 & 3 \\
+    4 & 5 & 6 \\
+    7 & 8 & 9 \\
+    \end{pmatrix}
+    $$
+
+    表格
+
+    | $A$ | $B$ | $C$ |
+    | :-: | :-: | :-: |
+    |  1  |  1  |  4  |
+    |  5  |  1  |  4  |
+
+</textarea>
 
         <div class="button-container">
             <button id="preview-btn">预览</button>
@@ -982,6 +1049,7 @@
             fullscreenBtn.addEventListener('click', enterFullscreen);
             exitFullscreenBtn.addEventListener('click', exitFullscreen);
 
+            /*
             document.addEventListener('keydown', (e) => {
                 switch (e.key) {
                     case 'ArrowLeft':
@@ -1015,6 +1083,7 @@
                         break;
                 }
             });
+            */
 
             leftBtn.addEventListener('click', () => navigate('left'));
             rightBtn.addEventListener('click', () => navigate('right'));

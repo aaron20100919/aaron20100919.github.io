@@ -8,16 +8,31 @@
 
         新的 bug:
 
-        1. 一页内只能有一个列表项, 否则会乱了...
-        2. 全屏会莫名其掉咕掉，漆黑一团，要四处嗯下才泵的出来？？？
+        1. 一页内只能有一个列表项, 否则会乱了（更不能嵌套）...
+        2. 全屏加上列表项会莫名其掉咕掉，漆黑一团，要四处嗯下才泵的出来？？？
+        3. 列表项嵌套引用会导致样式宽度炸了。。。
+        4. 列表项太烦了
 
     - |
 
         可能会做的更新:
 
         1. 手写一个看板娘
-        2. 增加置顶顺序
-        3. 将 `style` 扔进一个文件夹
+        2. 将 `style` 扔进一个文件夹
+        3. 干脆把列表项删了。。。这么多 bug
+        4. 写一个 vscode 插件方便预览。
+
+    - |
+
+        ### 2025.8.5
+
+        支持插入 html 标签了！！
+
+        <details class="info-box" style="background-color: #dcf3ff; border-left: 4px solid #3676ff; padding: 10px; margin: 10px 0; border-radius: 4px;"><summary style="margin-bottom: 10px; font-weight: bold; cursor: pointer;"
+        >这是一个框</summary>
+
+        [教程](/display/other/box.html)
+        </details>
 
     - |
 
