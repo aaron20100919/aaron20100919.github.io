@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-    <title>每日犇犇(发泄)</title>
+    <title>8.6 总结</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
@@ -526,59 +526,85 @@
                 style="font-size: 25px; max-width: none; color: #333;">See
                 source</a>
         </div>
-        <div id="title">每日犇犇(发泄)</div>
+        <div id="title">8.6 总结</div>
 
         <textarea id="slide-content">---
 - |
-    # 每日犇犇(发泄)
+    ## 8.6 总结
 
-    ## 今日犇犇
+    拿了大众分，遇上了毒瘤提答。
 
-    > 2025.8.6
-
-    毒瘤提答只能交文件，$30$ 个必须一个一个点，而且不能交空。
+    这个提答只能交文件，$30$ 个必须一个一个点，而且不能交空。
 
     赛后竟然有人写出来了 `批量上传文件脚本`，真是太强了！！
 
-- |
+    %%%%
 
-    > 2025.8.5
-
-    啊啊啊啊，辛辛苦苦出的题被 yj 毙了，明明很好，偏要说是蓝题，只要紫题。
-
-    他说不加强就不要，我直接拉大数据强制分段打表，还被喷了。
-
-    呜呜呜呜呜（不过确实活该被喷）。
-
-- |
-
-    > 2025.8.4
-
-    这世人沃池：
-
-    <https://ton.org/zh#:~:text=程序启动、直接广告、基于即时通讯软件的病毒式传播>
-
-    
-    这世人沃液池（耐心等待）：
-
-    ![](/image/wreak1.webp)
-
-    ~~话说xhx怎么竟收这种图~~
+    <table>
+    <thead><tr><th style="white-space: nowrap;"><span style="cursor: pointer;">
+          排名
+          <i class="icon-arrow-up"></i></span></th><th style="white-space: nowrap;"><span>用户名</span></th><th style="white-space: nowrap; text-align: center;"><span style="cursor: pointer;">
+          分数
+          <i class="icon-resize-vertical"></i></span></th> <th style="text-align: center;"><a href="#contest/show/4437/0">【NOI模拟】迷宫守卫（maze）</a> <span style="cursor: pointer;"><i class="icon-resize-vertical"></i></span></th><th style="text-align: center;"><a href="#contest/show/4437/1">【NOI模拟】重塑时光(timeline)</a> <span style="cursor: pointer;"><i class="icon-resize-vertical"></i></span></th><th style="text-align: center;"><a href="#contest/show/4437/2">【NOI模拟】最长待机(sleep)</a> <span style="cursor: pointer;"><i class="icon-resize-vertical"></i></span></th></tr></thead><tr><td><strong><span class="label">10</span></strong></td> <td><a href="#users/2023全智贤"><span class="label label-info">2023全智贤</span></a></td> <!----> <td><div class="table-tight-row"><span class="badge badge-info">142</span> <span class="spacing-slash"></span><!----></div></td> <td><div class="table-tight-row"><a href="#main/result/1240860"><span class="badge badge-success">100</span></a> <span class="spacing-slash"></span><!----></div> <!----></td><td><div class="table-tight-row"><a href="#main/result/1240783"><span class="badge badge-warning">40</span></a> <span class="spacing-slash"></span><!----></div> <!----></td><td><div class="table-tight-row"><a href="#main/result/1240925"><span class="badge badge-warning">2</span></a> <span class="spacing-slash"></span><!----></div> <!----></td> <!----></tr></table>
 
 - |
+    ### T1 【NOI模拟】迷宫守卫（maze）
 
-    > 2025.8.3
+    <https://www.luogu.com.cn/problem/P13494>
 
-    关于你双击下面这句话的 `吉` 会和 `人` 匹配到一起令人忍俊不禁
+    很简单的一个 dp。直接 $O(N^3\log N)$ 艹过去了。
 
-    > 不如去看uoj76原出题人吉老师的题解
+    其实常数很小，因为跟总颜色数和集合数量有关，而这两个数一个大一个小。
+
+- children:
+    - |
+        ### T2 【NOI模拟】重塑时光(timeline)
+
+        不知哪蒯来的题。
+
+        <details class="info-box" style="background-color: #dcf3ff; border-left: 4px solid #3676ff; padding: 10px; margin: 10px 0; border-radius: 4px;"><summary style="margin-bottom: 10px; font-weight: bold; cursor: pointer;"
+        >题目大意</summary>
+
+        给出一个排列 $p$，你可以通过若干次下面的方式给 $p$ 排序：
+        选择 $k$ 个下标 $1 \le i_1<i_2<\dots<i_k \le n$，将整个序列变换为 $(i_1,i_2)+[i_1,i_1]+(i_2,i_3)+[i_2,i_2]+\dots+(i_k,n+1)+[i_k,i_k]+(0,i_1)$，请注意此处是下标的拼接，$(i,j)$ 代表 $A_{i+1},A_{i+2},\dots,A_{j-1}$，$[i,j]$ 代表 $A_{i},A_{i+1},\dots,A_{j}$。
+        所有测试点将会下发，但是每个测试点操作次数和操作中所有 $k$ 的总和会有一定限制。
+        </details>
+
+        大数据需要 $<1.5n$ 做法，小数据需要 $\leq\frac{n}{2}$ 做法。
+
+    - |
+        #### $2n$ 做法
+
+        注意到操作 $i_1=1,i_2=x$ 可以 $A_1,A_{2,\dots,x-1},A_x,A_{x+1,\dots,n}\to A_{2,\dots,x-1},A_1,A_{x+1,\dots,n},A_x$，注意到 $A_x$ 到了最后，对于 $x=1,\dots,n$ 依次处理即可。
+
+    - |
+        #### 正解
+
+        考虑新增一个虚点 $0$ 表示起始点放到序列中，若序列 $A=[1,2,0,3,4]$，那么实际上这个序列是 $[3,4,1,2]$。
+
+        那么这个神奇的操作可以看作 $0,A_1,\dots,A_k$ 拎出来向后循环位移一位。
+
+        那么找出置换环，将 $0$ 搞到环上，挨个处理即可。
+
+        注意到目标状态不止一个，如 $[0,1,2,3,4],[3,4,0,1,2]$，每个都跑一边找操作数刚好能过的就行了。
+
+        还在码中。
 
 - |
+    ### T3 【NOI模拟】最长待机(sleep)
 
-    > 2025.8.2
+    <https://www.luogu.com.cn/problem/P13497>
 
-    终于开夏活了,德狗精2材料花了我500理智,烦死了
-</textarea>
+    神仙幂级数。
+
+    不会。
+
+- |
+    ## 总评
+
+    头一次做提答，以后要备上 `批量上传文件脚本`。
+
+    否则交个题都要交 $5 min$。。。。</textarea>
 
         <div class="button-container">
             <button id="preview-btn">预览</button>
