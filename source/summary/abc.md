@@ -49,6 +49,8 @@
     - |
         ## F-G
 
+        F 赛时看岔行了，把 `exactly` 看成 `at least`。。。
+
         <details class="danger-box" style="background-color: #ffcdcd; border-left: 4px solid #ff5454; padding: 10px; margin: 10px 0; border-radius: 4px;"><summary style="margin-bottom: 10px; font-weight: bold; cursor: pointer;"
         >Wait</summary>
 
