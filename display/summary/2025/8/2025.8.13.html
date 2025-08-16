@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-    <title>Aaron's 极简博客</title>
+    <title>8.13 总结</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
@@ -526,206 +526,126 @@
                 style="font-size: 25px; max-width: none; color: #333;">See
                 source</a>
         </div>
-        <div id="title">Aaron's 极简博客</div>
+        <div id="title">8.13 总结</div>
 
         <textarea id="slide-content">---
+- |
+    ## 8.13 总结
+
+    <table><thead><tr><th style="white-space: nowrap;"><span style="cursor: pointer;">排名<i class="icon-arrow-up"></i></span></th><th style="white-space: nowrap;"><span>用户名</span></th><th style="white-space: nowrap; text-align: center;"><span style="cursor: pointer;">分数<i class="icon-resize-vertical"></i></span></th> <th style="text-align: center;"><a href="#contest/show/4448/0">项链</a> <span style="cursor: pointer;"><i class="icon-resize-vertical"></i></span></th><th style="text-align: center;"><a href="#contest/show/4448/1">二进制</a> <span style="cursor: pointer;"><i class="icon-resize-vertical"></i></span></th><th style="text-align: center;"><a href="#contest/show/4448/2">鱼贯而入</a> <span style="cursor: pointer;"><i class="icon-resize-vertical"></i></span></th><th style="text-align: center;"><a href="#contest/show/4448/3">苹果树(apple)</a> <span style="cursor: pointer;"><i class="icon-resize-vertical"></i></span></th></tr></thead><tr><td><strong><span class="label">2</span></strong></td> <td><a href="#users/2023全智贤"><span class="label label-info">2023全智贤</span></a></td> <!----> <td><div class="table-tight-row"><span class="badge badge-info">184</span> <span class="spacing-slash"></span>  <!----></div></td> <td><div class="table-tight-row"><a href="#main/result/1245177"><span class="badge badge-warning">50</span></a> <span class="spacing-slash"></span>  <!----></div> <!----></td><td><div class="table-tight-row"><a href="#main/result/1245320"><span class="badge badge-warning">50</span></a> <span class="spacing-slash"></span>  <!----></div> <!----></td><td><div class="table-tight-row"><a href="#main/result/1245180"><span class="badge badge-warning">84</span></a> <span class="spacing-slash"></span>  <!----></div> <!----></td><td><div class="table-tight-row"><!----> <!----> <!----></div> <!----></td> <!----></tr></table>
+
+    T2 是乱搞题, 而我只会乱搞题, 然后就 $84$ 了.
+
 - children:
     - |
-        # Aaron's 极简博客
+        ### T1 GMOJ 4366. 【GDKOI2016】项链
 
-        > 本博客基于 `HTML5, CSS3, javascript, python` 等技术实现，欢迎访问！
+        题面:
 
-        向右切幻灯片就是博客内容了，非常低级...
-
-        不定期更新有用没用有卵用没卵用自己捣鼓的垃圾项目。
-
-        偶尔会写一些总结，总之会慢慢充实起来的。
-
-        !!!全屏使用更佳!!!
-        
-        小贴士: 其实幻灯片内是可以滚动的..., 图片加载很慢...
+        > 有一个环形字符串, 你可以扣一段, 要求剩下部分回文且最长.
 
     - |
-        ## 一些说明
+        先用马拉车求出回文串, 然后数据结构随便写一下.
 
-        ~~其实就是纯手写，没有任何第三方库和样式，纯粹的原生`HTML5+CSS3+JS`~~
+        赛时忙着搞 T3, 没写哈希, 否则能艹过去.
 
-        ~~`python` 是用来线下手动渲染的...~~
-
-        中英文标点符号混用.。.会显得很奇怪，但懒得改了.
-
-        关于幻灯片渲染是因为觉得 UOJ 的幻灯片渲染太高级了，闲的蛋疼就自己弄了一个...
-
-        [免费体验](app/slide.html)
 - children:
     - |
-        ## 更新日志
+        ### T2 GMOJ 7166. 二进制
 
-        纵向查看 👇
+        <https://www.luogu.com.cn/problem/P4428>
 
-        修了一堆 bug, 还有亿堆, 欢迎提 issue.
-
-        新的 bug:
-
-        1. 一页内只能有一个列表项, 否则会乱了（更不能嵌套）...
-        2. 全屏加上列表项会莫名其掉咕掉，漆黑一团，要四处嗯下才泵的出来？？？
-        3. 列表项嵌套引用会导致样式宽度炸了。。。
-        4. 列表项太烦了
+        赛时 $5 min$ 就开始打表找规律, 还被 XC 质问这么快就开打吗?
 
     - |
+        你发现只有两者情况不合法, 记 $c$ 为统计 $01$ 的个数.
 
-        可能会做的更新:
+        不合法的情况就是:
 
-        1. 手写一个看板娘
-        2. 将 `style` 扔进一个文件夹
-        3. 干脆把列表项删了。。。这么多 bug
-        4. 写一个 vscode 插件方便预览。
+        $$
+        c_1=1\\
+        c_1\bmod2=1\wedge c_0<2\\
+        $$
+
+        然后打线段树就行了.
+
+        你发现统计合法数很难, 就统计不合法数.
+
+        赛时因为统计合法数打了个常数为 $24^2=576$ 的线段树被卡成暴力分了.
+
+        竟然尼姑评测姬过了...
+
+- children:
+    - |
+        ### T3 GMOJ 6468. 【GDOI2020模拟02.09】鱼贯而入
+
+        题意:
+
+        > 给一个线性探测的哈希表, 给你 $n\le200$ 个数, 希望冲突次数尽可能多(一次失配算一次冲突).
 
     - |
+        #### $45 pts$
 
-        ### 2025.8.6
+        赛时做法 $1$.
 
-        重设样式。
+        就是想随便试几个数, 设 $\Delta$ 是两个数的差, 就把所有的 $\Delta\times[2,1,\dfrac{1}{2},\dfrac{1}{3},\dfrac{1}{4},\dfrac{1}{6},\dfrac{1}{8}]\pm[0,1,2,3,4]$ 和 $a_i\pm[0,1,2,3,4]$ 都试一遍.
 
-    - |
+        同时在卡时限从 $n\to+\infty$ 尽量多地跑, 到 $4s$ 就退.
 
-        ### 2025.8.5
-
-        支持插入 html 标签了！！
-
-        <details class="info-box" style="background-color: #dcf3ff; border-left: 4px solid #3676ff; padding: 10px; margin: 10px 0; border-radius: 4px;"><summary style="margin-bottom: 10px; font-weight: bold; cursor: pointer;"
-        >这是一个框</summary>
-
-        [教程](/display/other/box.html)
-        </details>
+        很优秀.
 
     - |
+        #### $84 pts$
 
-        ### 2025.8.4
+        赛时做法 $2$.
 
-        也是知道咳癌的 $\LaTeX$ 是怎么没掉的了，原来没设置 `max-width`。。。
+        注意到 $len\to n$ 时重合概率很大, 所以就把所有 $n\le len\le40000$ 都试一遍.
 
-        把她调教好了。
+        考虑为什么能拿怎么多分(赛时是能过大样例), 因为 $a_i,a_j$ 能重合的前提是 $len\mid\Delta$, 所以我们直接枚举所有 $\Delta$ 的因数即可.
 
-        同时修改多行公式的颜色。
+        考虑到本人不会 $\text{pollard-Rho}$ 算法, 所以直接把 $\le1000$ 的质数打出来, 然后判断 $\Delta$ 有没有在这个范围内的因数, 检查一遍即可.
 
-    - |
+        > 说清楚点: 假设 $\Delta=p\times\Delta'$, 接下来检查它的因数 $\Delta'$, 再递归下去.
 
-        ### 2025.8.2
-
-        | 编号  |           内容           |
-        | :---: | :----------------------: |
-        |   1   | 修了修表格样式, 好看多了 |
-        |   2   |  换了个背景色, 像人样了  |
+        跑得飞快, $118$ 组只总共只跑了 $25s$, 不卡 oj.
 
     - |
+        #### $100\to??? pts$
 
-        ### 2025.8.1
+        发现只 WA 了一个点, 拎出来单独看一遍, 发现是 $40499\mid\Delta$ 时挂掉了, 把所有 $n\le len\le40000$ 改成 $n\le len\le40500$ 就过了.
 
-        增加表格样式(还是很丑)
+        > 注: $40499$ 是质数!!
 
-        删除了上下左右键导航.
-
-    - |
-
-        ### 2025.7.31
-
-        增加评论, 由 giscus 支持.
+        啊啊啊啊啊啊啊啊啊啊啊, 痛失 $16 pts$.
 
     - |
-        ### 2025.7.30
+        #### 正解
 
-        `render\renderIndex.py` 支持嵌套多层了(最好小于 6 层).
+        其实很接近正解了...但有谁会去学呢?
 
-        重构了整个目录结构, 新增 `image` 目录.
+        枚举 $1000$ 以内的质因数改成 $\text{pollard-Rho}$ 算法就是正解了.
 
-        增加 `update.md`.
+        也就是说 $\Delta=\Delta_1\times\Delta_2$, 分别递归下去检查.
 
-        头像改用 luogu 图床, 访问更快.
+        话说 $\text{pollard-Rho}$ 难道不是 ~~*随机化乱搞*~~ 吗?
 
-        修了修最大宽度.
-
-        将 `build.bat` 拆成两个部分.
-
-        又润了润 `style`
-
-    - |
-        ### 2025.7.29
-
-        润色了一下 `style`, 同时增加了左上角我帅气的头像和朴素导航栏.
-
-        增加了底部的作者信息.
-
-        `render\renderIndex.py` 支持嵌套一层了, 方便分类.
-
-        新增 `build.bat`, 简单化上传.
-
-    - |
-        ### 2025.7.28
-
-        直接通过 `slide.html` 乱写了一个博客...
-
-        增加 `render/*` 一键渲染.
-- |
-    ## other
-    
-    1 [如何书写框框](/display/other/box.html)
-
-    2 [如何搭建一个像这样的博客](/display/other/build.html)
-
-    3 [C++ 调试模板](/display/other/debug.html)
-
-    4 [乱讲珂朵莉树](/display/other/OTD.html)
-
-    5 [手写幻灯片渲染器！！](/display/other/slide.html)
-
-    6 [每日犇犇(发泄)](/display/other/wreak.html)
+        > 既生 $\text{qzx}$, 何生 $\text{pollard-Rho}$?
 
 - |
-    #### summary/2025/7
-    
-    1 [7.29 总结](/display/summary/2025/7/2025.7.29.html)
+    ### T4 GMOJ 8670. 【2025.08省选模拟】苹果树(apple)
 
-    2 [7.30 总结](/display/summary/2025/7/2025.7.30.html)
+    <https://www.luogu.com.cn/problem/P3780>
 
-- |
-    #### summary/2025/8
-    
-    1 [8.1 总结](/display/summary/2025/8/2025.8.1.html)
+    发现是树上依赖背包, 且白送一条链.
 
-    2 [8.10 总结](/display/summary/2025/8/2025.8.10.html)
+    考虑对正反 dfn 序求出前若干个 dfn 序的最优答案, 再枚举送哪条链.
 
-    3 [8.12 总结](/display/summary/2025/8/2025.8.12.html)
-
-    4 [8.13 总结](/display/summary/2025/8/2025.8.13.html)
-
-    5 [8.15 总结](/display/summary/2025/8/2025.8.15.html)
-
-    6 [8.3 总结](/display/summary/2025/8/2025.8.3.html)
-
-    7 [8.5 总结](/display/summary/2025/8/2025.8.5.html)
-
-    8 [8.6 总结](/display/summary/2025/8/2025.8.6.html)
-
-    9 [8.8 总结](/display/summary/2025/8/2025.8.8.html)
+    因为免费送的链上的点只能选一个, 直接拆点就行了.
 
 - |
-    ## summary
-    
-    1 [ABC 略结](/display/summary/abc.html)
+    ## 总评
 
-    2 [ARC 略结](/display/summary/arc.html)
-
-- |
-    ## tutorial
-    
-    1 [AT_abc417_f の题解](/display/tutorial/AT_abc417_f.html)
-
-- |
-    # 结束了?
-    > 确实, 但内容会渐渐多的...
-    
-    希望大家多多点个 $\text{Star}$ 吧~
+    乱搞题好玩.
 </textarea>
 
         <div class="button-container">
