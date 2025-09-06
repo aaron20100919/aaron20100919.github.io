@@ -223,7 +223,7 @@
         };
 
         function collectorCost(level) { return level > 1048576 ? Infinity : Math.pow(level / 5, 2); }
-        function boostCost(level) { return Math.pow(10, level * 2); }
+        function boostCost(level) { return Math.pow(10, level); }
         function dimensionCost(level) { return level > 11 ? Infinity : Math.pow(10, 4 * Math.pow(4, level - 2)); }
         function synthLossCost(level) { return boostCost(level); }
 
