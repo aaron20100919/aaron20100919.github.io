@@ -136,7 +136,7 @@
                 <button id="buyDimension">购买维度</button>
                 <span id="dimensionInfo"></span>
             </div>
-            <p>效率: 每秒产出 = (1 + 采集器数量) ^ 维度 * 采集加成</p>
+            <p>效率: 每秒产出 = (采集器数量 * 采集加成) ^ 维度</p>
             <p>维度上限: 11</p>
         </div>
     </div>
@@ -223,7 +223,7 @@
         };
 
         function collectorCost(level) { return level > 1048576 ? Infinity : Math.pow(level / 5, 2); }
-        function boostCost(level) { return Math.pow(10, level); }
+        function boostCost(level) { return Math.pow(10, level * 2); }
         function dimensionCost(level) { return level > 11 ? Infinity : Math.pow(10, 4 * Math.pow(4, level - 2)); }
         function synthLossCost(level) { return boostCost(level); }
 
@@ -252,13 +252,17 @@
             let now = Date.now();
             let delta = Math.floor((now - (state.lastSave || now)) / 1000);
             if (delta > 0) {
-                let gainPlanck = delta * (state.collectors * state.collectBoost + Math.pow(1 + state.collectors, state.dimensions) * state.collectBoost);
+                let gainPlanck = delta * (Math.pow(state.collectors * state.collectBoost, state.dimensions));
                 state.planck += gainPlanck;
-                state.proton += delta * state.protonCollector;
-                state.neutron += delta * state.neutronCollector;
-                state.electron += delta * state.electronCollector;
-                state.atom += delta * state.atomCollector;
-                if (showMsg) showToast(`离线收益: P:${formatValue(gainPlanck)} 质子:${delta * state.protonCollector} 中子:${delta * state.neutronCollector} 电子:${delta * state.electronCollector} 原子:${delta * state.atomCollector}`);
+                let gainProton = delta * (Math.pow(state.protonCollector * state.collectBoost, state.dimensions));
+                state.proton += gainProton;
+                let gainNeutron = delta * (Math.pow(state.neutronCollector * state.collectBoost, state.dimensions));
+                state.neutron += gainNeutron;
+                let gainElectron = delta * (Math.pow(state.electronCollector * state.collectBoost, state.dimensions));
+                state.electron += gainElectron;
+                let gainAtom = delta * (Math.pow(state.atomCollector * state.collectBoost, state.dimensions));
+                state.atom += gainAtom;
+                if (showMsg) showToast(`离线收益: P:${formatValue(gainPlanck)} 质子:${formatValue(gainProton)} 中子:${formatValue(gainNeutron)} 电子:${formatValue(gainElectron)} 原子:${formatValue(gainAtom)}`);
             }
             state.lastSave = now;
             localStorage.setItem("CRLMOM_SAVE", JSON.stringify(state));
@@ -351,11 +355,16 @@
 
         // 自动刷新每秒
         setInterval(() => {
-            state.planck += state.collectors * state.collectBoost + Math.pow(1 + state.collectors, state.dimensions) * state.collectBoost;
-            state.proton += state.protonCollector;
-            state.neutron += state.neutronCollector;
-            state.electron += state.electronCollector;
-            state.atom += state.atomCollector;
+            let gainPlanck = (Math.pow(state.collectors * state.collectBoost, state.dimensions));
+            state.planck += gainPlanck;
+            let gainProton = (Math.pow(state.protonCollector * state.collectBoost, state.dimensions));
+            state.proton += gainProton;
+            let gainNeutron = (Math.pow(state.neutronCollector * state.collectBoost, state.dimensions));
+            state.neutron += gainNeutron;
+            let gainElectron = (Math.pow(state.electronCollector * state.collectBoost, state.dimensions));
+            state.electron += gainElectron;
+            let gainAtom = (Math.pow(state.atomCollector * state.collectBoost, state.dimensions));
+            state.atom += gainAtom;
             render();
         }, 1000);
 
