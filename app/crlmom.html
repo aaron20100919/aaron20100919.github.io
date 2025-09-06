@@ -252,15 +252,15 @@
             let now = Date.now();
             let delta = Math.floor((now - (state.lastSave || now)) / 1000);
             if (delta > 0) {
-                let gainPlanck = delta * (Math.pow(state.collectors * state.collectBoost, state.dimensions));
+                let gainPlanck = delta * (Math.pow(state.collectors * state.collectBoost, state.dimensions ** 2));
                 state.planck += gainPlanck;
-                let gainProton = delta * (Math.pow(state.protonCollector * state.collectBoost, state.dimensions));
+                let gainProton = delta * (Math.pow(state.protonCollector * state.collectBoost, state.dimensions ** 2));
                 state.proton += gainProton;
-                let gainNeutron = delta * (Math.pow(state.neutronCollector * state.collectBoost, state.dimensions));
+                let gainNeutron = delta * (Math.pow(state.neutronCollector * state.collectBoost, state.dimensions ** 2));
                 state.neutron += gainNeutron;
-                let gainElectron = delta * (Math.pow(state.electronCollector * state.collectBoost, state.dimensions));
+                let gainElectron = delta * (Math.pow(state.electronCollector * state.collectBoost, state.dimensions ** 2));
                 state.electron += gainElectron;
-                let gainAtom = delta * (Math.pow(state.atomCollector * state.collectBoost, state.dimensions));
+                let gainAtom = delta * (Math.pow(state.atomCollector * state.collectBoost, state.dimensions ** 2));
                 state.atom += gainAtom;
                 if (showMsg) showToast(`离线收益: P:${formatValue(gainPlanck)} 质子:${formatValue(gainProton)} 中子:${formatValue(gainNeutron)} 电子:${formatValue(gainElectron)} 原子:${formatValue(gainAtom)}`);
             }
@@ -355,15 +355,15 @@
 
         // 自动刷新每秒
         setInterval(() => {
-            let gainPlanck = (Math.pow(state.collectors * state.collectBoost, state.dimensions));
+            let gainPlanck = (Math.pow(state.collectors * state.collectBoost, state.dimensions ** 2));
             state.planck += gainPlanck;
-            let gainProton = (Math.pow(state.protonCollector * state.collectBoost, state.dimensions));
+            let gainProton = (Math.pow(state.protonCollector * state.collectBoost, state.dimensions ** 2));
             state.proton += gainProton;
-            let gainNeutron = (Math.pow(state.neutronCollector * state.collectBoost, state.dimensions));
+            let gainNeutron = (Math.pow(state.neutronCollector * state.collectBoost, state.dimensions ** 2));
             state.neutron += gainNeutron;
-            let gainElectron = (Math.pow(state.electronCollector * state.collectBoost, state.dimensions));
+            let gainElectron = (Math.pow(state.electronCollector * state.collectBoost, state.dimensions ** 2));
             state.electron += gainElectron;
-            let gainAtom = (Math.pow(state.atomCollector * state.collectBoost, state.dimensions));
+            let gainAtom = (Math.pow(state.atomCollector * state.collectBoost, state.dimensions ** 2));
             state.atom += gainAtom;
             render();
         }, 1000);
