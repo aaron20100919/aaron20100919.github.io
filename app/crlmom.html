@@ -305,10 +305,10 @@
 
         // 合成损失
         document.getElementById('upgradeSynthLoss').onclick = () => {
-            if (state.synthLoss < 1024) { let cost = synthLossCost(state.synthLoss - 1); if (state.planck >= cost) { state.planck -= cost; state.synthLoss++; render(); } }
+            if (state.synthLoss < 1024) { let cost = synthLossCost(state.synthLoss + 1); if (state.planck >= cost) { state.planck -= cost; state.synthLoss++; render(); } }
         }
         document.getElementById('upgradeSynthLossMax').onclick = () => {
-            while (state.synthLoss < 1024 && state.planck >= synthLossCost(state.synthLoss - 1)) { state.planck -= synthLossCost(state.synthLoss - 1); state.synthLoss++; render(); }
+            while (state.synthLoss < 1024 && state.planck >= synthLossCost(state.synthLoss + 1)) { state.planck -= synthLossCost(state.synthLoss - 1); state.synthLoss++; render(); }
         }
 
         // 合成函数
