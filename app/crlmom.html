@@ -287,7 +287,7 @@
         // 采集器
         document.getElementById('collectBtn').onclick = () => { state.planck += state.collectBoost; render(); }
         document.getElementById('buyCollector').onclick = () => { let cost = collectorCost(state.collectors + 1); if (state.planck >= cost) { state.planck -= cost; state.collectors++; render(); } }
-        document.getElementById('buyCollectorMax').onclick = () => { while (state.planck >= collectorCost(state.collectors + 1)) { state.planck -= collectorCost(state.collectors + 1); state.collectors++; } render(); }
+        document.getElementById('buyCollectorMax').onclick = () => { if (collectorCost(state.collectors + 1) == Infinity) return; while (state.planck >= collectorCost(state.collectors + 1)) { state.planck -= collectorCost(state.collectors + 1); state.collectors++; } render(); }
 
         // 物质收集器
         function buyMaterialCollector(type, res) { if (!state.bought[type] && state[res] >= 1) { state[res] -= 1; state[type]++; state.dimensions = 1; state.bought[type] = true; state.planck = 0; state.dimensions = 1; state.synthLoss = 2; state.collectBoost = 1; render(); } }
