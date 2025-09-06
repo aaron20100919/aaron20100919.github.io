@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>CRLMOM 增量游戏</title>
+    <style>
+        body {
+            background: #fff;
+            color: #222;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center
+        }
+
+        h1 {
+            margin: 12px 0
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            background: #eee;
+            border-bottom: 2px solid #ccc
+        }
+
+        .tabs button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: #eee;
+            cursor: pointer;
+            font-size: 1rem
+        }
+
+        .tabs button.active {
+            background: #ddd;
+            font-weight: bold;
+            border-bottom: 2px solid #2b6bff
+        }
+
+        .tab-content {
+            display: none;
+            padding: 18px;
+        }
+
+        .card {
+            background: #f6f6f6;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 12px auto;
+            max-width: 700px
+        }
+
+        button {
+            background: #2b6bff;
+            border: none;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 2px
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            margin: 6px 0
+        }
+
+        .resource {
+            font-size: 0.95rem;
+            margin: 2px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="displayRes">e0.00</h1>
+    <div class="tabs">
+        <button class="tabBtn active" data-tab="tab1">采集</button>
+        <button class="tabBtn" data-tab="tab2">多维宇宙</button>
+        <button class="tabBtn" data-tab="tab3">合成</button>
+        <button class="tabBtn" data-tab="tab4">收集器</button>
+        <button class="tabBtn" data-tab="tab5">加成</button>
+        <button class="tabBtn" data-tab="tab6">保存</button>
+    </div>
+
+    <div id="tab1" class="tab-content" style="display:block">
+        <div class="card">
+            <h3>采集</h3>
+            <button id="collectBtn">手动采集 +1</button>
+            <div class="row">
+                <button id="buyCollector">购买采集器</button>
+                <button id="buyCollectorMax">购买至最多</button>
+                <span id="collectorInfo"></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab2" class="tab-content">
+        <div class="card">
+            <h3>多维宇宙</h3>
+            <div class="row">
+                <button id="buyDimension">购买维度</button>
+                <button id="buyDimensionMax">购买至最多</button>
+                <span id="dimensionInfo"></span>
+            </div>
+            <p>效率: 每秒产出 = (1 + 采集器数量) ^ 维度 * 采集加成</p>
+            <p>维度上限: 11</p>
+        </div>
+    </div>
+
+    <div id="tab3" class="tab-content">
+        <div class="card">
+            <h3>合成</h3>
+            <div class="row"><button id="synthUp">合成上夸克</button><span>成本: e11.00 | 拥有: <span
+                        id="upQuark">0</span></span></div>
+            <div class="row"><button id="synthDown">合成下夸克</button><span>成本: e11.00 | 拥有: <span
+                        id="downQuark">0</span></span></div>
+            <div class="row"><button id="synthElectron">合成电子</button><span>成本: e11.00 | 拥有: <span
+                        id="electron">0</span></span></div>
+            <div class="row"><button id="synthProton">合成质子</button><span>2上夸克+1下夸克 | 拥有: <span
+                        id="proton">0</span></span></div>
+            <div class="row"><button id="synthNeutron">合成中子</button><span>2下夸克+1上夸克 | 拥有: <span
+                        id="neutron">0</span></span></div>
+            <div class="row"><button id="synthAtom">合成原子</button><span>质子+中子+电子 | 拥有: <span id="atom">0</span></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab4" class="tab-content">
+        <div class="card">
+            <h3>收集器 (购买将重置维度)</h3>
+            <div class="row"><button id="buyProtonCollector">购买质子收集器</button><span>成本: e100.00 原子 | 拥有: <span
+                        id="protonCollector">0</span></span></div>
+            <div class="row"><button id="buyNeutronCollector">购买中子收集器</button><span>成本: e100.00 原子 | 拥有: <span
+                        id="neutronCollector">0</span></span></div>
+            <div class="row"><button id="buyElectronCollector">购买电子收集器</button><span>成本: e100.00 原子 | 拥有: <span
+                        id="electronCollector">0</span></span></div>
+            <div class="row"><button id="buyAtomCollector">购买原子收集器</button><span>成本: e100.00 原子 | 拥有: <span
+                        id="atomCollector">0</span></span></div>
+        </div>
+    </div>
+
+    <div id="tab5" class="tab-content">
+        <div class="card">
+            <h3>加成</h3>
+            <div class="row"><button id="buySynthBoost">购买合成加成</button><span>倍率: <span id="synthBoost">1</span> | 成本:
+                    <span id="synthBoostCost">e1.00</span></span></div>
+            <div class="row"><button id="buyCollectBoost">购买采集加成</button><span>倍率: <span id="collectBoost">1</span> |
+                    成本: <span id="collectBoostCost">e1.00</span></span></div>
+        </div>
+    </div>
+
+    <div id="tab6" class="tab-content">
+        <div class="card">
+            <h3>保存</h3>
+            <button id="saveBtn">保存</button>
+            <button id="loadBtn">载入</button>
+            <button id="resetBtn">重置</button>
+        </div>
+    </div>
+
+    <script>
+        function formatValue(x) { if (x <= 0) return '0'; return 'e' + Math.log10(x).toFixed(2); }
+
+        let state = { planck: 0, collectors: 0, dimensions: 1, upQuark: 0, downQuark: 0, electron: 0, proton: 0, neutron: 0, atom: 0, protonCollector: 0, neutronCollector: 0, electronCollector: 0, atomCollector: 0, synthBoost: 1, collectBoost: 1 };
+
+        function dimensionCost(level) { if (level > 11) return Infinity; return Math.pow(10, 4 * Math.pow(5, level - 2)); }
+        function boostCost(level) { return Math.pow(10, level * 2); }
+        function collectorCost(level) { if (level > 1048576) return Infinity; return Math.pow(level / 5.0, 2); }
+
+        function render() {
+            document.getElementById('displayRes').textContent = `${formatValue(state.planck)} P`;
+            let nextCollectorCost = collectorCost(state.collectors + 1);
+            document.getElementById('collectorInfo').textContent = `采集器:${state.collectors} | 成本: ${nextCollectorCost === Infinity ? '已满' : formatValue(nextCollectorCost)}`;
+            let nextDimCost = state.dimensions >= 11 ? Infinity : dimensionCost(state.dimensions + 1);
+            document.getElementById('dimensionInfo').textContent = `维度:${state.dimensions} | 下一级成本: ${nextDimCost === Infinity ? '已满' : formatValue(nextDimCost)}`;
+            document.getElementById('upQuark').textContent = state.upQuark;
+            document.getElementById('downQuark').textContent = state.downQuark;
+            document.getElementById('electron').textContent = state.electron;
+            document.getElementById('proton').textContent = state.proton;
+            document.getElementById('neutron').textContent = state.neutron;
+            document.getElementById('atom').textContent = state.atom;
+            document.getElementById('protonCollector').textContent = state.protonCollector;
+            document.getElementById('neutronCollector').textContent = state.neutronCollector;
+            document.getElementById('electronCollector').textContent = state.electronCollector;
+            document.getElementById('atomCollector').textContent = state.atomCollector;
+            document.getElementById('synthBoost').textContent = state.synthBoost;
+            document.getElementById('collectBoost').textContent = state.collectBoost;
+            document.getElementById('synthBoostCost').textContent = formatValue(boostCost(state.synthBoost));
+            document.getElementById('collectBoostCost').textContent = formatValue(boostCost(state.collectBoost));
+        }
+
+        // 基础按钮
+        document.getElementById('collectBtn').onclick = () => { state.planck += state.collectBoost; render(); };
+        function buyCollector(n = 1) { for (let i = 0; i < n; i++) { let cost = collectorCost(state.collectors); if (state.planck >= cost) { state.planck -= cost; state.collectors++; } } render(); }
+        document.getElementById('buyCollector').onclick = () => buyCollector(1);
+        document.getElementById('buyCollectorMax').onclick = () => { while (true) { let cost = collectorCost(state.collectors); if (state.planck >= cost) { state.planck -= cost; state.collectors++; } else break; } render(); };
+
+        function buyDimension(n = 1) { for (let i = 0; i < n; i++) { if (state.dimensions >= 11) break; let cost = dimensionCost(state.dimensions + 1); if (state.planck >= cost) { state.planck -= cost; state.dimensions++; } } render(); }
+        document.getElementById('buyDimension').onclick = () => buyDimension(1);
+        document.getElementById('buyDimensionMax').onclick = () => { while (state.dimensions < 11) { let cost = dimensionCost(state.dimensions + 1); if (state.planck >= cost) { state.planck -= cost; state.dimensions++; } else break; } render(); };
+
+        // 购买加成
+        function buySynthBoost() { if (state.synthBoost >= 1024) return; let cost = boostCost(state.synthBoost); if (state.planck >= cost) { state.planck -= cost; state.synthBoost *= 2; render(); } }
+        document.getElementById('buySynthBoost').onclick = buySynthBoost;
+        function buyCollectBoost() { if (state.collectBoost >= 1024) return; let cost = boostCost(state.collectBoost); if (state.planck >= cost) { state.planck -= cost; state.collectBoost *= 2; render(); } }
+        document.getElementById('buyCollectBoost').onclick = buyCollectBoost;
+
+        // 购买物质收集器重置维度
+        function buyCollectorType(type) { if (state.atom >= 1e100) { state.atom -= 1e100; state[type]++; state.dimensions = 1; render(); } }
+        document.getElementById('buyProtonCollector').onclick = () => buyCollectorType('protonCollector');
+        document.getElementById('buyNeutronCollector').onclick = () => buyCollectorType('neutronCollector');
+        document.getElementById('buyElectronCollector').onclick = () => buyCollectorType('electronCollector');
+        document.getElementById('buyAtomCollector').onclick = () => buyCollectorType('atomCollector');
+
+        // 标签页切换
+        const tabBtns = document.querySelectorAll('.tabBtn');
+        tabBtns.forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.tabBtn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none'); document.getElementById(btn.dataset.tab).style.display = 'block'; }); });
+
+        // 自动更新
+        setInterval(() => {
+            if (state.collectors > 0) state.planck += state.collectors * state.collectBoost;
+            if (state.dimensions > 0) { state.planck += Math.pow(1 + state.collectors, state.dimensions) * state.collectBoost; }
+            state.proton += state.protonCollector * state.synthBoost;
+            state.neutron += state.neutronCollector * state.synthBoost;
+            state.electron += state.electronCollector * state.synthBoost;
+            state.atom += state.atomCollector * state.synthBoost;
+            render();
+        }, 1000);
+
+        render();
+    </script>
+</body>
+
+</html>
