@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>CRLMOM 增量游戏</title>
+    <title>CRLMOM</title>
     <style>
         body {
             background: #fff;
@@ -99,243 +99,214 @@
 
 <body>
     <h1 id="displayRes">e0.00 P</h1>
-
     <div class="tabs">
-        <button class="tabBtn active" data-tab="tab1">采集</button>
-        <button class="tabBtn" data-tab="tab2">多维宇宙</button>
-        <button class="tabBtn" data-tab="tab3">合成</button>
-        <button class="tabBtn" data-tab="tab4">加成</button>
-        <button class="tabBtn" data-tab="tab5">保存</button>
+        <button class="tabBtn active" data-tab="tab1">Collect</button>
+        <button class="tabBtn" data-tab="tab2">Dimension</button>
+        <button class="tabBtn" data-tab="tab3">Synth</button>
+        <button class="tabBtn" data-tab="tab4">Boost</button>
+        <button class="tabBtn" data-tab="tab5">Save</button>
     </div>
 
-    <!-- 采集页 -->
     <div id="tab1" class="tab-content" style="display:block">
         <div class="card">
-            <h3>采集</h3>
-            <button id="collectBtn">手动采集 +1</button>
+            <h3>Collect</h3>
+            <button id="collectBtn">+1</button>
             <div class="row">
-                <button id="buyCollector">购买采集器</button>
-                <button id="buyCollectorMax">购买至最多</button>
+                <button id="buyCollector">Buy Collecter</button>
+                <button id="buyCollectorMax">Buy Max</button>
                 <span id="collectorInfo"></span>
             </div>
-            <h4>物质收集器（购买将重置维度，只能购买一次）</h4>
-            <div class="row"><button id="buyProtonCollector">质子收集器</button><span id="protonCollectorInfo"></span></div>
-            <div class="row"><button id="buyNeutronCollector">中子收集器</button><span id="neutronCollectorInfo"></span>
+            <h4>Other Collecter</h4>
+            <p>Buy any of these will clear collecters, planks and dimensions.</p>
+            <div class="row"><button id="buyAtomCollector">Atom Collecter</button><span id="atomCollectorInfo"></span>
             </div>
-            <div class="row"><button id="buyElectronCollector">电子收集器</button><span id="electronCollectorInfo"></span>
-            </div>
-            <div class="row"><button id="buyAtomCollector">原子收集器</button><span id="atomCollectorInfo"></span></div>
         </div>
     </div>
 
-    <!-- 多维宇宙页 -->
     <div id="tab2" class="tab-content">
         <div class="card">
-            <h3>多维宇宙</h3>
+            <h3>Dimension</h3>
             <div class="row">
-                <button id="buyDimension">购买维度</button>
+                <button id="buyDimension">Buy Dimension</button>
                 <span id="dimensionInfo"></span>
             </div>
-            <p>效率: 每秒产出 = (采集器数量 * 采集加成) ^ 维度</p>
-            <p>维度上限: 11</p>
+            <p>Collect Per Second = (Collecter * Boost) ^ Dimension * Copier</p>
+            <p>Max Dimension: 11</p>
         </div>
     </div>
 
-    <!-- 合成页 -->
     <div id="tab3" class="tab-content">
         <div class="card">
-            <h3>合成</h3>
+            <h3>Synth</h3>
             <div class="row">
-                <button id="synthUp">合成上夸克</button>
-                <button id="synthUpMax">购买至最大</button>
-                <span>成本: e100 普朗克 | 拥有: <span id="upQuark">0</span></span>
+                <button id="synthUp">Synth UpQuark</button>
+                <button id="synthUpMax">Synth Max</button>
+                <span>Cost: e100 Plank | Have: <span id="upQuark">0</span></span>
             </div>
             <div class="row">
-                <button id="synthDown">合成下夸克</button>
-                <button id="synthDownMax">购买至最大</button>
-                <span>成本: e100 普朗克 | 拥有: <span id="downQuark">0</span></span>
+                <button id="synthDown">Synth DownQuark</button>
+                <button id="synthDownMax">Synth Max</button>
+                <span>Cost: e100 Plank | Have: <span id="downQuark">0</span></span>
             </div>
             <div class="row">
-                <button id="synthElectron">合成电子</button>
-                <button id="synthElectronMax">购买至最大</button>
-                <span>成本: e100 普朗克 | 拥有: <span id="electron">0</span></span>
+                <button id="synthProton">Synth Proton</button>
+                <button id="synthProtonMax">Synth Max</button>
+                <span>Cost: 2UpQuark + 1DownQuark | Have: <span id="proton">0</span></span>
             </div>
             <div class="row">
-                <button id="synthProton">合成质子</button>
-                <button id="synthProtonMax">购买至最大</button>
-                <span>成本: 2上夸克 + 1下夸克 | 拥有: <span id="proton">0</span></span>
+                <button id="synthAtom">Synth Atom</button>
+                <button id="synthAtomMax">Synth Max</button>
+                <span>Cost: 2Proton | Have: <span id="atom">0</span></span>
             </div>
-            <div class="row">
-                <button id="synthNeutron">合成中子</button>
-                <button id="synthNeutronMax">购买至最大</button>
-                <span>成本: 2下夸克 + 1上夸克 | 拥有: <span id="neutron">0</span></span>
-            </div>
-            <div class="row">
-                <button id="synthAtom">合成原子</button>
-                <button id="synthAtomMax">购买至最大</button>
-                <span>成本: 质子 + 中子 + 电子 | 拥有: <span id="atom">0</span></span>
-            </div>
-            <div class="row"><span>合成损失: <span id="synthLoss">1/2</span></span></div>
+            <div class="row"><span>Synth Loss: <span id="synthLoss">1/2</span></span></div>
         </div>
     </div>
 
-    <!-- 加成页 -->
     <div id="tab4" class="tab-content">
         <div class="card">
-            <h3>加成</h3>
+            <h3>Boost</h3>
             <div class="row">
-                <button id="buyCollectBoost">购买采集加成</button>
-                <button id="buyCollectBoostMax">购买至最大</button>
-                <span>倍率: <span id="collectBoost">1</span> | 成本: <span id="collectBoostCost">e1.00</span></span>
+                <button id="buyCollectBoost">Buy Collecting Boost</button>
+                <button id="buyCollectBoostMax">Buy Max</button>
+                <span>Times: <span id="collectBoost">1</span> | Cost: <span id="collectBoostCost">e1.00</span></span>
             </div>
             <div class="row">
-                <button id="upgradeSynthLoss">降低合成损失</button>
-                <button id="upgradeSynthLossMax">购买至最大</button>
-                <span>当前损失: <span id="synthLossUpgrade">1/2</span> | 成本: <span id="synthLossCost">e1.00</span></span>
+                <button id="buyCopier">Buy Copier</button>
+                <button id="buyCopierMax">Buy Max</button>
+                <span>Copier: <span id="copier">1</span> | Cost: <span id="copierCost">e1.00</span></span>
+            </div>
+            <div class="row">
+                <button id="buyDiscounter">Buy Discounter</button>
+                <button id="buyDiscounterMax">Buy Max</button>
+                <span>Discounter: <span id="discounter">1</span> | Cost: <span id="discounterCost">e1.00</span></span>
+            </div>
+            <div class="row">
+                <button id="upgradeSynthLoss">Decrease Synth Loss</button>
+                <button id="upgradeSynthLossMax">Buy Max</button>
+                <span>Loss: <span id="synthLossUpgrade">1/2</span> | Cost: <span id="synthLossCost">e1.00</span></span>
             </div>
         </div>
     </div>
 
-    <!-- 保存页 -->
     <div id="tab5" class="tab-content">
         <div class="card">
-            <h3>保存/导入导出</h3>
-            <button id="exportBtn">导出为TXT</button>
+            <h3>SAVE/IMPOER/EXPORT</h3>
+            <button id="exportBtn">EXPORT TO TXT</button>
             <input type="file" id="importFile" style="display:none" accept=".txt">
-            <button id="importBtn">从TXT导入</button>
-            <button id="resetBtn">重置</button>
+            <button id="importBtn">IMPORT FROM TXT</button>
+            <button id="resetBtn">RESET</button>
         </div>
     </div>
-
-    <div id="toast">提示</div>
-
+    <div id="toast">Tips</div>
     <script>
         function formatValue(x) { return x <= 0 ? '0' : 'e' + Math.log10(x).toFixed(2); }
         function showToast(msg) { let t = document.getElementById("toast"); t.textContent = msg; t.className = "show"; setTimeout(() => { t.className = ""; }, 2500); }
-
         let state = {
             planck: 0, collectors: 0, dimensions: 1,
-            upQuark: 0, downQuark: 0, electron: 0,
-            proton: 0, neutron: 0, atom: 0,
-            protonCollector: 0, neutronCollector: 0, electronCollector: 0, atomCollector: 0,
-            collectBoost: 1, synthLoss: 2, lastSave: Date.now(),
-            bought: { protonCollector: false, neutronCollector: false, electronCollector: false, atomCollector: false }
+            upQuark: 0, downQuark: 0, proton: 0, atom: 0,
+            atomCollector: 0,
+            collectBoost: 1, synthLoss: 2, copier: 0, discounter: 1, lastSave: Date.now(),
+            bought: { atomCollector: false }
         };
-
-        function collectorCost(level) { return level > 1048576 ? Infinity : Math.pow(level / 5, 2); }
-        function boostCost(level) { return Math.pow(10, level); }
-        function dimensionCost(level) { return level > 11 ? Infinity : Math.pow(10, 4 * Math.pow(3, level - 2)); }
-        function synthLossCost(level) { return boostCost(level); }
-
+        function collectorCost(level) { return (level > 1073741824 ? Infinity : 10 ** 50 * Math.pow(level, level / 1048576 / 3)) / state.discounter; }
+        function boostCost(level) { return (Math.pow(10, level / 2.5)) / state.discounter; }
+        function dimensionCost(level) { return (level > 11 ? Infinity : Math.pow(10, level ** 2 - (level >= 10))) / state.discounter; }
+        function synthLossCost(level) { return (Math.pow(10, level * 2)) / state.discounter; }
+        function copierCost(level) { return (Math.pow(level, level / 100.0)) / state.discounter; }
+        function discounterCost(level) { return (Math.pow(level, level / 500.0)) / state.discounter; }
+        function calcGain(collecter) { return Math.pow(collecter * state.collectBoost, state.dimensions) * state.copier; }
         function render() {
-            document.getElementById('displayRes').textContent = formatValue(state.planck) + ' P';
-            document.getElementById('collectorInfo').textContent = `采集器:${state.collectors} | 成本: ${formatValue(collectorCost(state.collectors + 1))}`;
-            document.getElementById('dimensionInfo').textContent = `维度:${state.dimensions} | 下级成本: ${formatValue(dimensionCost(state.dimensions + 1))}`;
-            document.getElementById('upQuark').textContent = state.upQuark;
-            document.getElementById('downQuark').textContent = state.downQuark;
-            document.getElementById('electron').textContent = state.electron;
-            document.getElementById('proton').textContent = state.proton;
-            document.getElementById('neutron').textContent = state.neutron;
-            document.getElementById('atom').textContent = state.atom;
-            document.getElementById('protonCollectorInfo').textContent = `拥有:${state.protonCollector} | 成本:1质子`;
-            document.getElementById('neutronCollectorInfo').textContent = `拥有:${state.neutronCollector} | 成本:1中子`;
-            document.getElementById('electronCollectorInfo').textContent = `拥有:${state.electronCollector} | 成本:1电子`;
-            document.getElementById('atomCollectorInfo').textContent = `拥有:${state.atomCollector} | 成本:1原子`;
+            document.getElementById('displayRes').textContent = formatValue(state.planck) + ' PLK ' + formatValue(state.atom) + ' Atom';
+            document.getElementById('collectorInfo').textContent = `Collecter:${state.collectors} | Cost: ${formatValue(collectorCost(state.collectors + 1))}`;
+            document.getElementById('dimensionInfo').textContent = `dimension:${state.dimensions} | Cost: ${formatValue(dimensionCost(state.dimensions + 1))}`;
+            document.getElementById('upQuark').textContent = formatValue(state.upQuark);
+            document.getElementById('downQuark').textContent = formatValue(state.downQuark);
+            document.getElementById('proton').textContent = formatValue(state.proton);
+            document.getElementById('atom').textContent = formatValue(state.atom);
+            document.getElementById('atomCollectorInfo').textContent = `Have:${formatValue(state.atomCollector)} | Cost:e2 Atom`;
             document.getElementById('collectBoost').textContent = state.collectBoost;
             document.getElementById('collectBoostCost').textContent = formatValue(boostCost(state.collectBoost));
+            document.getElementById('copier').textContent = state.copier;
+            document.getElementById('copierCost').textContent = formatValue(copierCost(state.copier));
+            document.getElementById('discounter').textContent = state.discounter;
+            document.getElementById('discounterCost').textContent = formatValue(discounterCost(state.discounter));
             document.getElementById('synthLoss').textContent = `1/${state.synthLoss}`;
             document.getElementById('synthLossUpgrade').textContent = `1/${state.synthLoss}`;
             document.getElementById('synthLossCost').textContent = formatValue(synthLossCost(state.synthLoss + 1));
         }
-
         function saveToLocal(showMsg = false) {
             let now = Date.now();
             let delta = Math.floor((now - (state.lastSave || now)) / 1000);
             if (delta > 0) {
-                let gainPlanck = delta * (Math.pow(state.collectors * state.collectBoost, state.dimensions ** 2));
+                let gainPlanck = delta * (calcGain(state.collectors));
                 state.planck += gainPlanck;
-                let gainProton = delta * (Math.pow(state.protonCollector * state.collectBoost, state.dimensions ** 2));
+                let gainProton = delta * (calcGain(state.protonCollector));
                 state.proton += gainProton;
-                let gainNeutron = delta * (Math.pow(state.neutronCollector * state.collectBoost, state.dimensions ** 2));
-                state.neutron += gainNeutron;
-                let gainElectron = delta * (Math.pow(state.electronCollector * state.collectBoost, state.dimensions ** 2));
-                state.electron += gainElectron;
-                let gainAtom = delta * (Math.pow(state.atomCollector * state.collectBoost, state.dimensions ** 2));
+                let gainAtom = delta * (calcGain(state.atomCollector));
                 state.atom += gainAtom;
-                if (showMsg) showToast(`离线收益: P:${formatValue(gainPlanck)} 质子:${formatValue(gainProton)} 中子:${formatValue(gainNeutron)} 电子:${formatValue(gainElectron)} 原子:${formatValue(gainAtom)}`);
+                showToast(`OFFLINE Gained: P:${formatValue(gainPlanck)} Atom:${formatValue(gainAtom)}`);
             }
             state.lastSave = now;
             localStorage.setItem("CRLMOM_SAVE", JSON.stringify(state));
         }
-
         function loadFromLocal() {
             let saved = localStorage.getItem("CRLMOM_SAVE");
             if (saved) {
                 state = JSON.parse(saved);
-                if (!state.synthLoss) state.synthLoss = 2;
-                if (!state.collectBoost) state.collectBoost = 1;
-                if (!state.bought) state.bought = { protonCollector: false, neutronCollector: false, electronCollector: false, atomCollector: false };
+                if (state.copier == undefined) {
+                    state.copier = 0;
+                }
+                if (state.discounter == undefined) {
+                    state.discounter = 1;
+                }
             }
             saveToLocal(false);
         }
         loadFromLocal();
         render();
 
-        // 标签页
         document.querySelectorAll('.tabBtn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.tabBtn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none'); document.getElementById(btn.dataset.tab).style.display = 'block'; }); });
 
-        // 采集器
         document.getElementById('collectBtn').onclick = () => { state.planck += state.collectBoost; render(); }
         document.getElementById('buyCollector').onclick = () => { let cost = collectorCost(state.collectors + 1); if (state.planck >= cost) { state.planck -= cost; state.collectors++; render(); } }
         document.getElementById('buyCollectorMax').onclick = () => { if (collectorCost(state.collectors + 1) == Infinity) return; while (state.planck >= collectorCost(state.collectors + 1)) { state.planck -= collectorCost(state.collectors + 1); state.collectors++; } render(); }
 
-        // 物质收集器
-        function buyMaterialCollector(type, res) { if (!state.bought[type] && state[res] >= 1) { state[res] -= 1; state[type]++; state.dimensions = 1; state.bought[type] = true; state.planck = 0; state.dimensions = 1; state.synthLoss = 2; state.collectBoost = 1; render(); } }
-        document.getElementById('buyProtonCollector').onclick = () => buyMaterialCollector('protonCollector', 'proton');
-        document.getElementById('buyNeutronCollector').onclick = () => buyMaterialCollector('neutronCollector', 'neutron');
-        document.getElementById('buyElectronCollector').onclick = () => buyMaterialCollector('electronCollector', 'electron');
+        function buyMaterialCollector(type, res) { if (!state.bought[type] && state[res] >= 10 ** 2) { state[res] -= 10 ** 2; state[type]++; state.bought[type] = true; state.planck = 0; state.dimensions = 1; state.collectBoost = 1; render(); } }
         document.getElementById('buyAtomCollector').onclick = () => buyMaterialCollector('atomCollector', 'atom');
 
-        // 维度
         document.getElementById('buyDimension').onclick = () => { let cost = dimensionCost(state.dimensions + 1); if (state.planck >= cost) { state.planck -= cost; state.dimensions++; render(); } }
 
-        // 采集加成
         document.getElementById('buyCollectBoost').onclick = () => { let cost = boostCost(state.collectBoost); if (state.planck >= cost) { state.planck -= cost; state.collectBoost++; render(); } }
         document.getElementById('buyCollectBoostMax').onclick = () => { while (state.planck >= boostCost(state.collectBoost)) { state.planck -= boostCost(state.collectBoost); state.collectBoost++; } render(); }
 
-        // 合成损失
-        document.getElementById('upgradeSynthLoss').onclick = () => {
-            if (state.synthLoss < 1024) { let cost = synthLossCost(state.synthLoss + 1); if (state.planck >= cost) { state.planck -= cost; state.synthLoss++; render(); } }
-        }
+        document.getElementById('buyCopier').onclick = () => { let cost = copierCost(state.copier); if (state.planck >= cost) { state.planck -= cost; state.copier++; render(); } }
+        document.getElementById('buyCopierMax').onclick = () => { while (state.planck >= copierCost(state.copier)) { state.planck -= copierCost(state.copier); state.copier++; } render(); }
+
+        document.getElementById('buyDiscounter').onclick = () => { let cost = discounterCost(state.discounter); if (state.planck >= cost) { state.planck -= cost; state.discounter++; render(); } }
+        document.getElementById('buyDiscounterMax').onclick = () => { while (state.planck >= discounterCost(state.discounter)) { state.planck -= discounterCost(state.discounter); state.discounter++; } render(); }
+
+        document.getElementById('upgradeSynthLoss').onclick = () => { let cost = synthLossCost(state.synthLoss + 1); if (state.planck >= cost) { state.planck -= cost; state.synthLoss++; render(); } }
         document.getElementById('upgradeSynthLossMax').onclick = () => {
-            while (state.synthLoss < 1024 && state.planck >= synthLossCost(state.synthLoss + 1)) { state.planck -= synthLossCost(state.synthLoss + 1); state.synthLoss++; render(); }
+            while (state.planck >= synthLossCost(state.synthLoss + 1)) { state.planck -= synthLossCost(state.synthLoss + 1); state.synthLoss++; render(); }
         }
 
-        // 合成函数
         function synth(resource, amount) {
             let loss = 1 / state.synthLoss;
             function deduct(v) { return Math.max(Math.floor(v * (1 - loss)), 0); }
-            if (resource == 'upQuark' || resource == 'downQuark' || resource == 'electron') { if (state.planck >= 1e100) { state.planck -= 1e100; state[resource] += amount; render(); } }
+            if (resource == 'upQuark' || resource == 'downQuark') { if (state.planck >= 1e100) { state.planck -= 1e100; state[resource] += amount; render(); } }
             else if (resource == 'proton') { if (state.upQuark >= 2 && state.downQuark >= 1) { state.upQuark = deduct(state.upQuark - 2); state.downQuark = deduct(state.downQuark - 1); state.proton += amount; render(); } }
-            else if (resource == 'neutron') { if (state.upQuark >= 1 && state.downQuark >= 2) { state.upQuark = deduct(state.upQuark - 1); state.downQuark = deduct(state.downQuark - 2); state.neutron += amount; render(); } }
-            else if (resource == 'atom') { if (state.proton >= 1 && state.neutron >= 1 && state.electron >= 1) { state.proton = deduct(state.proton - 1); state.neutron = deduct(state.neutron - 1); state.electron = deduct(state.electron - 1); state.atom += amount; render(); } }
+            else if (resource == 'atom') { if (state.proton >= 2) { state.proton = deduct(state.proton - 2); state.atom += amount; render(); } }
         }
 
-        // 合成按钮
         document.getElementById('synthUp').onclick = () => synth('upQuark', 1);
         document.getElementById('synthUpMax').onclick = () => { while (state.planck >= 1e100) synth('upQuark', 1); }
         document.getElementById('synthDown').onclick = () => synth('downQuark', 1);
         document.getElementById('synthDownMax').onclick = () => { while (state.planck >= 1e100) synth('downQuark', 1); }
-        document.getElementById('synthElectron').onclick = () => synth('electron', 1);
-        document.getElementById('synthElectronMax').onclick = () => { while (state.planck >= 1e100) synth('electron', 1); }
         document.getElementById('synthProton').onclick = () => synth('proton', 1);
         document.getElementById('synthProtonMax').onclick = () => { while (state.upQuark >= 2 && state.downQuark >= 1) synth('proton', 1); }
-        document.getElementById('synthNeutron').onclick = () => synth('neutron', 1);
-        document.getElementById('synthNeutronMax').onclick = () => { while (state.upQuark >= 1 && state.downQuark >= 2) synth('neutron', 1); }
         document.getElementById('synthAtom').onclick = () => synth('atom', 1);
-        document.getElementById('synthAtomMax').onclick = () => { while (state.proton >= 1 && state.neutron >= 1 && state.electron >= 1) synth('atom', 1); }
+        document.getElementById('synthAtomMax').onclick = () => { while (state.proton >= 2) synth('atom', 1); }
 
-        // 导入导出
         document.getElementById('exportBtn').onclick = () => {
             let data = "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
             let a = document.createElement('a'); a.href = data; a.download = 'CRLMOM_save.txt'; a.click();
@@ -348,29 +319,21 @@
             reader.readAsText(file);
         }
 
-        // 重置
         document.getElementById('resetBtn').onclick = () => {
-            if (confirm('确认重置?')) { localStorage.removeItem('CRLMOM_SAVE'); location.reload(); }
+            if (confirm('Really reset?')) { localStorage.removeItem('CRLMOM_SAVE'); location.reload(); loadFromLocal(); }
         }
 
-        // 自动刷新每秒
         setInterval(() => {
-            let gainPlanck = (Math.pow(state.collectors * state.collectBoost, state.dimensions ** 2));
+            let gainPlanck = (calcGain(state.collectors));
             state.planck += gainPlanck;
-            let gainProton = (Math.pow(state.protonCollector * state.collectBoost, state.dimensions ** 2));
+            let gainProton = (calcGain(state.protonCollector));
             state.proton += gainProton;
-            let gainNeutron = (Math.pow(state.neutronCollector * state.collectBoost, state.dimensions ** 2));
-            state.neutron += gainNeutron;
-            let gainElectron = (Math.pow(state.electronCollector * state.collectBoost, state.dimensions ** 2));
-            state.electron += gainElectron;
-            let gainAtom = (Math.pow(state.atomCollector * state.collectBoost, state.dimensions ** 2));
+            let gainAtom = (calcGain(state.atomCollector));
             state.atom += gainAtom;
             render();
         }, 1000);
 
-        // 自动保存每3秒
         setInterval(() => { saveToLocal(); }, 3000);
-
         render();
     </script>
 </body>
