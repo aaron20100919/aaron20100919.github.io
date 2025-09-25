@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>专注/懒散 计时器</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background: #fff;
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .column {
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .timer-display {
+            font-size: 2em;
+            margin: 10px 0;
+        }
+
+        .focus-total {
+            font-size: 1.2em;
+            margin: 10px 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        textarea,
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px;
+            font-family: inherit;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 1em;
+            border: none;
+            border-radius: 4px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        pre {
+            background: #f8f8f8;
+            padding: 10px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .status {
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .two-col {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .copy-btn {
+            background: #28a745;
+            margin-bottom: 10px;
+        }
+
+        .copy-btn:hover {
+            background: #218838;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .stat-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            margin: 0 5px;
+        }
+
+        .stat-value {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="column" id="left-col">
+        <h2>计时器</h2>
+
+        <div class="stats-row">
+            <div class="stat-item">
+                <div class="stat-label">当前状态</div>
+                <div class="stat-value" id="currentStatus">未开始</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">当前计时</div>
+                <div class="stat-value" id="timer">00:00:00</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">今日专注</div>
+                <div class="stat-value" id="focusTotal">00:00:00</div>
+            </div>
+        </div>
+
+        <button id="toggleBtn">开始专注</button>
+
+        <div class="section">
+            <h3>时段总结与目标</h3>
+            <label>上一个时段小结</label>
+            <textarea id="lastSummary" placeholder="切换后填写上一个时段小结..."></textarea>
+            <label>新时段目标</label>
+            <textarea id="newGoal" placeholder="切换前填写新时段目标..."></textarea>
+        </div>
+    </div>
+
+    <div class="column" id="right-col">
+        <div class="section">
+            <h2>今日目标</h2>
+            <textarea id="dailyGoal" placeholder="填写今日目标..."></textarea>
+        </div>
+        <div class="section">
+            <h2>今日小结</h2>
+            <textarea id="dailySummary" placeholder="填写今日小结..."></textarea>
+        </div>
+        <div class="section">
+            <h2>今日汇总</h2>
+            <button id="copyBtn" class="copy-btn">复制</button>
+            <pre id="summaryOutput"></pre>
+        </div>
+    </div>
+
+    <script>
+        let currentStatus = null;
+        let startTime = null;
+        let timerInterval = null;
+        let sessions = [];
+        let todayFocusTotal = 0;
+
+        function formatTime(ms) {
+            const sec = Math.floor(ms / 1000);
+            const h = String(Math.floor(sec / 3600)).padStart(2, '0');
+            const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+            const s = String(sec % 60).padStart(2, '0');
+            return `${h}:${m}:${s}`;
+        }
+
+        function updateTimer() {
+            if (startTime) {
+                const elapsed = Date.now() - startTime;
+                document.getElementById('timer').textContent = formatTime(elapsed);
+            }
+            updateSummary();
+            updateFocusTotal();
+        }
+
+        function updateFocusTotal() {
+            // 计算今日所有专注时段的总时长
+            const today = new Date().toDateString();
+            let totalMs = 0;
+
+            sessions.forEach(session => {
+                if (session.status === "专注" && new Date(session.start).toDateString() === today) {
+                    totalMs += (session.end - session.start);
+                }
+            });
+
+            // 如果当前是专注状态，加上当前时段的时长
+            if (currentStatus === "专注" && startTime) {
+                totalMs += (Date.now() - startTime);
+            }
+
+            todayFocusTotal = totalMs;
+            document.getElementById('focusTotal').textContent = formatTime(totalMs);
+        }
+
+        function toggleStatus() {
+            const now = new Date();
+
+            // 结束上一个时段
+            if (currentStatus) {
+                const endTime = now;
+                const duration = (endTime - startTime) / 1000 / 60;
+                if (duration >= 3) {
+                    const lastSummary = document.getElementById('lastSummary').value.trim();
+                    sessions.push({
+                        status: currentStatus,
+                        start: startTime,
+                        end: endTime,
+                        goal: document.getElementById('newGoal').dataset.lastGoal || "",
+                        summary: lastSummary
+                    });
+                }
+                document.getElementById('lastSummary').value = "";
+            }
+
+            // 切换状态
+            currentStatus = currentStatus === "专注" ? "懒散" : "专注";
+            document.getElementById('currentStatus').textContent = currentStatus;
+            document.getElementById('toggleBtn').textContent = "切换到 " + (currentStatus === "专注" ? "懒散" : "专注");
+
+            // 保存新目标
+            const newGoal = document.getElementById('newGoal').value.trim();
+            document.getElementById('newGoal').dataset.lastGoal = newGoal;
+            document.getElementById('newGoal').value = "";
+
+            // 开始新时段
+            startTime = now;
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(updateTimer, 1000);
+
+            updateSummary();
+            updateFocusTotal();
+        }
+
+        function updateSummary() {
+            const today = new Date().toISOString().split('T')[0];
+            let totalFocus = 0;
+            let md = `# ${today} の小结\n\n`;
+
+            // 包括已完成和正在进行的时段
+            const allSessions = [...sessions];
+            if (currentStatus && startTime) {
+                allSessions.push({
+                    status: currentStatus,
+                    start: startTime,
+                    end: new Date(),
+                    goal: document.getElementById('newGoal').dataset.lastGoal || "",
+                    summary: document.getElementById('lastSummary').value.trim() || ""
+                });
+            }
+
+            allSessions.forEach(s => {
+                const mins = Math.floor((s.end - s.start) / 1000 / 60);
+                if (s.status === "专注") totalFocus += mins;
+            });
+
+            md += `## 汇总\n\n共专注了 ${totalFocus} 分钟。\n\n`;
+            md += `### 今日目标\n\n${document.getElementById('dailyGoal').value.trim() || ""}\n\n`;
+            md += `### 今日小结\n\n${document.getElementById('dailySummary').value.trim() || ""}\n\n`;
+            md += `## 具体\n\n`;
+
+            allSessions.forEach(s => {
+                const startStr = s.start.toTimeString().slice(0, 5);
+                const endStr = s.end.toTimeString().slice(0, 5);
+                md += `### [${startStr} - ${endStr}] ${s.status} 时段\n\n`;
+                md += `#### 目标\n\n${s.goal || ""}\n\n`;
+                md += `#### 小结\n\n${s.summary || ""}\n\n`;
+            });
+
+            document.getElementById('summaryOutput').textContent = md;
+        }
+
+        function copySummary() {
+            const summaryText = document.getElementById('summaryOutput').textContent;
+            navigator.clipboard.writeText(summaryText).then(() => {
+                const originalText = document.getElementById('copyBtn').textContent;
+                document.getElementById('copyBtn').textContent = '已复制!';
+                setTimeout(() => {
+                    document.getElementById('copyBtn').textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败: ', err);
+                alert('复制失败，请手动选择文本复制');
+            });
+        }
+
+        // 退出前确认
+        window.addEventListener('beforeunload', function (e) {
+            // 如果有正在进行中的计时，提示用户
+            if (currentStatus && startTime) {
+                e.preventDefault();
+                e.returnValue = '确定要离开吗？';
+            }
+        });
+
+        document.getElementById('toggleBtn').addEventListener('click', toggleStatus);
+        document.getElementById('copyBtn').addEventListener('click', copySummary);
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+
+</html>
