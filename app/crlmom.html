@@ -208,7 +208,7 @@
             collectBoost: 1, synthLoss: 2, copier: 1, discounter: 1, lastSave: Date.now(),
             bought: { atomCollector: false }
         };
-        function collectorCost(level) { return level > 1048576 ? (level > 1073741824 ? Infinity : 10 ** 50 * Math.pow(level, level / 1048576 / 3)) / state.discounter : Math.pow(level / 5, 2) / state.discounter; }
+        function collectorCost(level) { return level > 1048576 ? (level > 1073741824 ? Infinity : 10 ** 50 * Math.pow(level, level / 1048576 / 3)) / state.discounter : Math.pow(level / 2, 2) / state.discounter; }
         function boostCost(level) { return (Math.pow(10, level / 2.5)) / state.discounter; }
         function dimensionCost(level) { return (level > 11 ? Infinity : Math.pow(10, level ** 2 - (level >= 10))) / state.discounter; }
         function synthLossCost(level) { return (Math.pow(10, level * 2)) / state.discounter; }
