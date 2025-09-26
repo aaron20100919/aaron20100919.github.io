@@ -205,7 +205,7 @@
             planck: 0, collectors: 0, dimensions: 1,
             upQuark: 0, downQuark: 0, proton: 0, atom: 0,
             atomCollector: 0,
-            collectBoost: 1, synthLoss: 2, copier: 0, discounter: 1, lastSave: Date.now(),
+            collectBoost: 1, synthLoss: 2, copier: 1, discounter: 1, lastSave: Date.now(),
             bought: { atomCollector: false }
         };
         function collectorCost(level) { return level > 1048576 ? (level > 1073741824 ? Infinity : 10 ** 50 * Math.pow(level, level / 1048576 / 3)) / state.discounter : Math.pow(level / 5, 2) / state.discounter; }
