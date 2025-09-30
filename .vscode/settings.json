@@ -20,6 +20,11 @@
         "unordered_set": "cpp",
         "vector": "cpp",
         "chrono": "cpp",
-        "limits": "cpp"
+        "limits": "cpp",
+        "functional": "cpp",
+        "cstdlib": "cpp",
+        "complex": "cpp",
+        "fstream": "cpp",
+        "iterator": "cpp"
     }
 }

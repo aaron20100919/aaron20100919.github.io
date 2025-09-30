@@ -1,0 +1,770 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>网页版草稿本</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity=""
+        crossorigin="anonymous" />
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: system-ui, Segoe UI, Roboto, "Microsoft Yahei";
+        }
+
+        #app {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            touch-action: none;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            padding: 6px;
+            background: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+            align-items: center;
+        }
+
+        .toolbar button,
+        input {
+            padding: 6px 8px;
+            font-size: 13px;
+        }
+
+        #stage-wrap {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        #viewport {
+            position: absolute;
+            left: 0;
+            top: 0;
+            transform-origin: 0 0;
+            width: 100000px;
+            height: 100000px;
+        }
+
+        .rect {
+            position: absolute;
+            border: 1px dashed rgba(0, 0, 0, 0.6);
+            background: transparent;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .rect .inner {
+            pointer-events: none;
+            padding: 6px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .rect.selected {
+            border-width: 3px;
+            border-style: solid;
+            border-color: #2563eb;
+        }
+
+        .handle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border: 1px solid #333;
+            border-radius: 2px;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        .handle.move {
+            left: 50%;
+            top: 50%;
+            display: none;
+            transform: translate(-50%, -50%);
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            cursor: grab;
+        }
+
+        .handle.edit {
+            right: -8px;
+            top: -8px;
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border: 2px solid #111;
+            cursor: pointer;
+        }
+
+        .handle.nw {
+            left: -6px;
+            top: -6px;
+            cursor: nwse-resize
+        }
+
+        .handle.ne {
+            right: -6px;
+            top: -6px;
+            cursor: nesw-resize
+        }
+
+        .handle.sw {
+            left: -6px;
+            bottom: -6px;
+            cursor: nesw-resize
+        }
+
+        .handle.se {
+            right: -6px;
+            bottom: -6px;
+            cursor: nwse-resize
+        }
+
+        /* modal */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999
+        }
+
+        .modal {
+            width: 70%;
+            height: 640px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden
+        }
+
+        .modal .head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-bottom: 1px solid #eee
+        }
+
+        .modal .body {
+            flex: 1;
+            display: flex;
+            gap: 8px;
+            padding: 8px;
+            overflow: auto;
+        }
+
+        .modal textarea {
+            width: 50%;
+            height: 100%;
+            max-height: 100%;
+            resize: none;
+            padding: 8px;
+            font-family: monospace;
+            box-sizing: border-box;
+        }
+
+        .modal .preview {
+            flex: 1;
+            overflow: auto;
+            padding: 8px;
+            border-left: 1px solid #eee;
+            max-height: 100%;
+        }
+
+        .small {
+            font-size: 12px;
+            color: #666
+        }
+
+        p {
+            margin-block-start: 0;
+            margin-block-end: 0;
+        }
+
+        /* 代码块样式 */
+        pre {
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            padding: 10px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.4;
+            margin: 10px 0;
+        }
+
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* 数学公式样式 */
+        .katex-display {
+            margin: 10px 0;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="toolbar">
+            <button id="btn-clear">清屏</button>
+            <button id="btn-save">导出 JSON</button>
+            <button id="btn-load">从文件加载</button>
+            <input id="file-input" type="file" accept=".json" style="display:none" />
+            <button id="btn-store">保存到本地(Storage)</button>
+            <button id="btn-restore">从本地恢复</button>
+            <div style="margin-left:12px" class="small">操作提示：鼠标滚轮缩放；按住 Alt + 拖拽
+                新建矩形；双击选中矩形显示拉伸点与编辑点；空手拖拽平移画布；选中矩形后按Delete键删除；Ctrl+S 保存。
+            </div>
+        </div>
+
+        <div id="stage-wrap">
+            <div id="viewport"></div>
+        </div>
+    </div>
+
+    <!-- modal template -->
+    <div id="modal-root" style="display:none"></div>
+
+    <!-- libs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/5.1.1/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/contrib/auto-render.min.js"></script>
+
+    <script>
+        /***** 基本状态与工具函数 *****/
+        const viewport = document.getElementById('viewport');
+        const stageWrap = document.getElementById('stage-wrap');
+        let state = {
+            scale: 1,
+            tx: 0,
+            ty: 0,
+            rects: [], // each {id,x,y,w,h,md}
+            nextId: 1,
+            mode: 'idle', // 'panning','drawing','dragging','resizing','editing'
+            activeRectId: null,
+            dragInfo: null
+        };
+
+        function applyTransform() {
+            viewport.style.transform = `translate(${state.tx}px, ${state.ty}px) scale(${state.scale})`;
+        }
+        applyTransform();
+
+        function clientToWorld(cx, cy) {
+            const rect = stageWrap.getBoundingClientRect();
+            const x = (cx - rect.left - state.tx) / state.scale;
+            const y = (cy - rect.top - state.ty) / state.scale;
+            return { x, y };
+        }
+
+        function worldToClient(x, y) {
+            const rect = stageWrap.getBoundingClientRect();
+            return { cx: rect.left + state.tx + x * state.scale, cy: rect.top + state.ty + y * state.scale };
+        }
+
+        /***** Markdown + LaTeX 渲染 *****/
+        function renderMarkdownToHTML(md) {
+            // 先处理代码块，防止其中的$被误识别为公式
+            let processedMd = md;
+            const codeBlocks = [];
+
+            // 提取代码块
+            processedMd = processedMd.replace(/```[\s\S]*?```|`[^`]*`/g, (match) => {
+                const id = `@@CODEBLOCK${codeBlocks.length}@@`;
+                codeBlocks.push({ id, content: match });
+                return id;
+            });
+
+            // 处理多行公式 $$
+            const displayMathBlocks = [];
+            processedMd = processedMd.replace(/\$\$[\s\S]*?\$\$/g, (match) => {
+                const id = `@@DISPLAYMATH${displayMathBlocks.length}@@`;
+                displayMathBlocks.push({ id, content: match });
+                return id;
+            });
+
+            // 处理单行公式 $
+            const inlineMathBlocks = [];
+            processedMd = processedMd.replace(/\$[^$]*\$/g, (match) => {
+                // 确保不是连续多个$（避免误匹配多行公式）
+                if (match.startsWith('$$') || match.endsWith('$$')) return match;
+                const id = `@@INLINEMATH${inlineMathBlocks.length}@@`;
+                inlineMathBlocks.push({ id, content: match });
+                return id;
+            });
+
+            // 使用 marked 渲染剩余的 markdown
+            const markedHtml = marked.parse(processedMd);
+
+            let finalHtml = markedHtml;
+
+            // 恢复代码块
+            for (const block of codeBlocks) {
+                finalHtml = finalHtml.replace(block.id, () => {
+                    if (block.content.startsWith('```')) {
+                        // 代码块
+                        const langMatch = block.content.match(/^```(\w+)/);
+                        const codeContent = block.content.replace(/^```(\w+)?\n?/, '').replace(/\n?```$/, '');
+                        return `<pre><code class="language-${langMatch ? langMatch[1] : ''}">${escapeHtml(codeContent)}</code></pre>`;
+                    } else {
+                        // 行内代码
+                        const codeContent = block.content.replace(/^`|`$/g, '');
+                        return `<code>${escapeHtml(codeContent)}</code>`;
+                    }
+                });
+            }
+
+            // 恢复多行公式
+            for (const math of displayMathBlocks) {
+                finalHtml = finalHtml.replace(math.id, () => {
+                    try {
+                        const mathContent = math.content.replace(/^\$\$|\$\$/g, '').trim();
+                        return katex.renderToString(mathContent, { displayMode: true, throwOnError: false });
+                    } catch (e) {
+                        return `<span style="color:red">公式错误: ${e.message}</span>`;
+                    }
+                });
+            }
+
+            // 恢复单行公式
+            for (const math of inlineMathBlocks) {
+                finalHtml = finalHtml.replace(math.id, () => {
+                    try {
+                        const mathContent = math.content.replace(/^\$|\$/g, '').trim();
+                        return katex.renderToString(mathContent, { displayMode: false, throwOnError: false });
+                    } catch (e) {
+                        return `<span style="color:red">公式错误: ${e.message}</span>`;
+                    }
+                });
+            }
+
+            return finalHtml;
+        }
+
+        function escapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        /***** DOM rect 管理 *****/
+        function createRectElement(r) {
+            const el = document.createElement('div');
+            el.className = 'rect';
+            el.dataset.id = r.id;
+            el.style.left = r.x + 'px';
+            el.style.top = r.y + 'px';
+            el.style.width = r.w + 'px';
+            el.style.height = r.h + 'px';
+            const inner = document.createElement('div');
+            inner.className = 'inner';
+            inner.innerHTML = renderMarkdownToHTML(r.md || '');
+            el.appendChild(inner);
+            // handles
+            const hNW = document.createElement('div'); hNW.className = 'handle nw'; el.appendChild(hNW);
+            const hNE = document.createElement('div'); hNE.className = 'handle ne'; el.appendChild(hNE);
+            const hSW = document.createElement('div'); hSW.className = 'handle sw'; el.appendChild(hSW);
+            const hSE = document.createElement('div'); hSE.className = 'handle se'; el.appendChild(hSE);
+            const moveHandle = document.createElement('div'); moveHandle.className = 'handle move'; el.appendChild(moveHandle);
+            const editHandle = document.createElement('div'); editHandle.className = 'handle edit'; editHandle.title = '编辑'; el.appendChild(editHandle);
+            // events
+            el.addEventListener('dblclick', (ev) => {
+                ev.stopPropagation();
+                selectRect(r.id);
+            });
+            // click on edit handle
+            editHandle.addEventListener('click', (ev) => {
+                ev.stopPropagation();
+                openEditor(r.id);
+            });
+            // start move when mousedown on rect (not on handles)
+            el.addEventListener('mousedown', (ev) => {
+                if (ev.button !== 0) return;
+                const target = ev.target;
+                if (target.classList.contains('handle')) return; // handled elsewhere
+                const rid = r.id;
+                // if selected then allow drag move
+                selectRect(rid);
+                startDragRect(ev, rid);
+            });
+            // handle resize drags
+            [hNW, hNE, hSW, hSE].forEach(h => {
+                h.addEventListener('mousedown', (ev) => {
+                    ev.stopPropagation();
+                    ev.preventDefault();
+                    const dir = h.classList.contains('nw') ? 'nw' : h.classList.contains('ne') ? 'ne' : h.classList.contains('sw') ? 'sw' : 'se';
+                    startResize(ev, r.id, dir);
+                });
+            });
+            // move handle for clicking move tiny square
+            moveHandle.addEventListener('mousedown', (ev) => {
+                ev.stopPropagation(); ev.preventDefault();
+                startDragRect(ev, r.id);
+            });
+            return el;
+        }
+
+        function refreshRects() {
+            // remove all children then recreate for simplicity
+            viewport.innerHTML = '';
+            for (const r of state.rects) {
+                const el = createRectElement(r);
+                if (state.activeRectId === r.id) el.classList.add('selected');
+                viewport.appendChild(el);
+            }
+        }
+
+        /***** 选择与交互 *****/
+        function selectRect(id) {
+            state.activeRectId = id;
+            refreshRects();
+        }
+
+        function deselect() {
+            state.activeRectId = null;
+            refreshRects();
+        }
+
+        /***** 绘制新矩形 (Alt + drag) *****/
+        let drawing = { active: false, start: null, el: null, id: null };
+        function onAltMouseDown(ev) {
+            if (ev.button !== 0) return;
+            if (!ev.altKey) return;
+            ev.preventDefault();
+            const p = clientToWorld(ev.clientX, ev.clientY);
+            const id = state.nextId++;
+            const r = { id, x: p.x, y: p.y, w: 1, h: 1, md: '' };
+            state.rects.push(r);
+            drawing.active = true;
+            drawing.start = p;
+            drawing.id = id;
+            drawing.el = createRectElement(r);
+            viewport.appendChild(drawing.el);
+            state.mode = 'drawing';
+        }
+
+        function onDrawingMove(ev) {
+            if (!drawing.active) return;
+            const p = clientToWorld(ev.clientX, ev.clientY);
+            const r = state.rects.find(rr => rr.id === drawing.id);
+            if (!r) return;
+            const sx = drawing.start.x, sy = drawing.start.y;
+            r.x = Math.min(sx, p.x);
+            r.y = Math.min(sy, p.y);
+            r.w = Math.max(4, Math.abs(p.x - sx));
+            r.h = Math.max(4, Math.abs(p.y - sy));
+            // update element
+            const el = viewport.querySelector(`.rect[data-id="${r.id}"]`);
+            if (el) {
+                el.style.left = r.x + 'px';
+                el.style.top = r.y + 'px';
+                el.style.width = r.w + 'px';
+                el.style.height = r.h + 'px';
+            }
+        }
+
+        function stopDrawing() {
+            if (!drawing.active) return;
+            state.mode = 'idle';
+            drawing.active = false;
+            drawing.start = null;
+            drawing.el = null;
+            drawing.id = null;
+            refreshRects();
+        }
+
+        /***** 停止绘制条件: 鼠标放开或 Alt 放开 *****/
+        window.addEventListener('keyup', (ev) => {
+            if (ev.key === 'Alt' || ev.key === 'AltGraph') stopDrawing();
+        });
+        window.addEventListener('mouseup', (ev) => {
+            if (drawing.active) stopDrawing();
+            if (state.mode === 'panning') state.mode = 'idle';
+            if (state.mode === 'dragging' || state.mode === 'resizing') state.mode = 'idle';
+        });
+
+        /***** 平移画布 (空手拖动) *****/
+        let pan = { active: false, last: { x: 0, y: 0 } };
+        stageWrap.addEventListener('mousedown', (ev) => {
+            if (ev.button !== 0) return;
+            if (ev.altKey) return; // alt handled elsewhere
+            // if clicked on empty area and not on rect, start panning
+            if (ev.target === stageWrap || ev.target === viewport || ev.target === document.body) {
+                pan.active = true;
+                state.mode = 'panning';
+                pan.last = { x: ev.clientX, y: ev.clientY };
+            }
+        });
+        stageWrap.addEventListener('mousemove', (ev) => {
+            if (pan.active && state.mode === 'panning') {
+                const dx = ev.clientX - pan.last.x;
+                const dy = ev.clientY - pan.last.y;
+                state.tx += dx;
+                state.ty += dy;
+                pan.last = { x: ev.clientX, y: ev.clientY };
+                applyTransform();
+            }
+            // drawing
+            if (drawing.active) onDrawingMove(ev);
+            // dragging rect
+            if (state.mode === 'dragging' && state.dragInfo) {
+                const di = state.dragInfo;
+                const p = clientToWorld(ev.clientX, ev.clientY);
+                const nx = p.x - di.offsetX;
+                const ny = p.y - di.offsetY;
+                const r = state.rects.find(rr => rr.id === di.id);
+                if (!r) return;
+                r.x = nx; r.y = ny;
+                refreshRects();
+            }
+            // resizing
+            if (state.mode === 'resizing' && state.dragInfo) {
+                const di = state.dragInfo;
+                const p = clientToWorld(ev.clientX, ev.clientY);
+                const r = state.rects.find(rr => rr.id === di.id);
+                if (!r) return;
+                // depending on dir adjust x,y,w,h
+                if (di.dir.includes('n')) {
+                    const newY = Math.min(di.startY + di.startH, p.y);
+                    const newH = di.startY + di.startH - newY;
+                    r.y = newY; r.h = Math.max(4, newH);
+                }
+                if (di.dir.includes('s')) {
+                    r.h = Math.max(4, p.y - r.y);
+                }
+                if (di.dir.includes('w')) {
+                    const newX = Math.min(di.startX + di.startW, p.x);
+                    const newW = di.startX + di.startW - newX;
+                    r.x = newX; r.w = Math.max(4, newW);
+                }
+                if (di.dir.includes('e')) {
+                    r.w = Math.max(4, p.x - r.x);
+                }
+                refreshRects();
+            }
+        });
+        window.addEventListener('mouseup', () => { pan.active = false; });
+
+        /***** 矩形拖动与拉伸启动 *****/
+        function startDragRect(ev, id) {
+            ev.preventDefault();
+            state.mode = 'dragging';
+            const p = clientToWorld(ev.clientX, ev.clientY);
+            const r = state.rects.find(rr => rr.id === id);
+            if (!r) return;
+            state.dragInfo = { id, offsetX: p.x - r.x, offsetY: p.y - r.y };
+        }
+
+        function startResize(ev, id, dir) {
+            ev.preventDefault();
+            state.mode = 'resizing';
+            const r = state.rects.find(rr => rr.id === id);
+            if (!r) return;
+            state.dragInfo = {
+                id, dir,
+                startX: r.x, startY: r.y, startW: r.w, startH: r.h
+            };
+        }
+
+        /***** 缩放：以鼠标为中心缩放并保持鼠标位置不动 *****/
+        stageWrap.addEventListener('wheel', (ev) => {
+            ev.preventDefault();
+            const delta = ev.deltaY;
+            const factor = Math.exp(-delta / 500); // smooth
+            const oldScale = state.scale;
+            const newScale = Math.max(0.1, Math.min(6, oldScale * factor));
+            const rect = stageWrap.getBoundingClientRect();
+            const mx = ev.clientX;
+            const my = ev.clientY;
+            // world point under mouse
+            const world = clientToWorld(mx, my);
+            // compute new tx/ty so that world point stays under mouse
+            state.scale = newScale;
+            state.tx = mx - world.x * state.scale - rect.left;
+            state.ty = my - world.y * state.scale - rect.top;
+            applyTransform();
+        });
+
+        let onEditor = false;
+
+        /***** 编辑器模态框 *****/
+        const modalRoot = document.getElementById('modal-root');
+        function openEditor(id) {
+            const r = state.rects.find(rr => rr.id === id);
+            if (!r) return;
+            // create modal
+            onEditor = true;
+            modalRoot.innerHTML = '';
+            modalRoot.style.display = 'block';
+            const backdrop = document.createElement('div'); backdrop.className = 'modal-backdrop';
+            const modal = document.createElement('div'); modal.className = 'modal';
+            const head = document.createElement('div'); head.className = 'head';
+            head.innerHTML = `<div><strong>编辑矩形 ${id}</strong></div><div><button id="copy-aligned" style="margin-right:5px">填充 Math-aligned</button><span class="small">宽:</span> <input id="w-in" type="number" value="${Math.round(r.w)}" style="width:80px"/> <span class="small">高:</span> <input id="h-in" type="number" value="${Math.round(r.h)}" style="width:80px"/> <button id="save-edit" hidden="true">保存并关闭</button> <button id="close-edit">Esc</button></div>`;
+            const body = document.createElement('div'); body.className = 'body';
+            const ta = document.createElement('textarea'); ta.value = r.md || '';
+            const preview = document.createElement('div'); preview.className = 'preview';
+            body.appendChild(ta); body.appendChild(preview);
+            modal.appendChild(head); modal.appendChild(body); backdrop.appendChild(modal); modalRoot.appendChild(backdrop);
+
+            function updatePreview() {
+                preview.innerHTML = renderMarkdownToHTML(ta.value);
+            }
+            updatePreview();
+            ta.addEventListener('input', updatePreview);
+            document.getElementById('w-in').addEventListener('change', (ev) => { r.w = Math.max(4, Number(ev.target.value)); refreshRects(); });
+            document.getElementById('h-in').addEventListener('change', (ev) => { r.h = Math.max(4, Number(ev.target.value)); refreshRects(); });
+
+            document.getElementById('copy-aligned').addEventListener('click', () => {
+                ta.value += `\n\n$$\n\\begin{aligned}\n\\end{aligned}\n$$`;
+            });
+            document.getElementById('save-edit').addEventListener('click', () => {
+                r.md = ta.value;
+                refreshRects();
+                closeModal();
+            });
+            document.getElementById('close-edit').addEventListener('click', () => { r.md = ta.value; refreshRects(); closeModal(); });
+            function closeModal() { modalRoot.innerHTML = ''; modalRoot.style.display = 'none'; onEditor = false; }
+        }
+
+        /***** 打开编辑也支持双击矩形文字以进入编辑（在矩形上双击已经用于选中） *****/
+
+        /***** 导出与导入 *****/
+        document.getElementById('btn-save').addEventListener('click', () => {
+            const payload = {
+                scale: state.scale, tx: state.tx, ty: state.ty,
+                rects: state.rects
+            };
+            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'draftbook.json'; a.click();
+            URL.revokeObjectURL(a.href);
+        });
+
+        document.getElementById('btn-load').addEventListener('click', () => document.getElementById('file-input').click());
+        document.getElementById('file-input').addEventListener('change', (ev) => {
+            const f = ev.target.files[0]; if (!f) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                try {
+                    const obj = JSON.parse(e.target.result);
+                    state.scale = obj.scale || 1;
+                    state.tx = obj.tx || 0;
+                    state.ty = obj.ty || 0;
+                    state.rects = (obj.rects || []).map(r => ({ id: r.id || state.nextId++, x: r.x || 0, y: r.y || 0, w: r.w || 100, h: r.h || 100, md: r.md || '' }));
+                    // ensure nextId
+                    state.nextId = Math.max(state.nextId, ...state.rects.map(rr => rr.id)) + 1;
+                    applyTransform();
+                    refreshRects();
+                } catch (err) {
+                    alert('载入失败: 非法 json');
+                }
+            };
+            reader.readAsText(f);
+            ev.target.value = '';
+        });
+
+        document.getElementById('btn-store').addEventListener('click', () => {
+            const payload = { scale: state.scale, tx: state.tx, ty: state.ty, rects: state.rects };
+            localStorage.setItem('draftbook_save', JSON.stringify(payload));
+            alert('已保存到本地 Storage');
+        });
+        document.getElementById('btn-restore').addEventListener('click', () => {
+            const raw = localStorage.getItem('draftbook_save');
+            if (!raw) { alert('无本地数据'); return; }
+            try {
+                const obj = JSON.parse(raw);
+                state.scale = obj.scale || 1; state.tx = obj.tx || 0; state.ty = obj.ty || 0;
+                state.rects = (obj.rects || []).map(r => ({ id: r.id || state.nextId++, x: r.x || 0, y: r.y || 0, w: r.w || 100, h: r.h || 100, md: r.md || '' }));
+                state.nextId = Math.max(state.nextId, ...state.rects.map(rr => rr.id)) + 1;
+                applyTransform(); refreshRects();
+                alert('已从本地恢复');
+            } catch (e) { alert('恢复失败'); }
+        });
+
+        /***** 清屏功能 *****/
+        document.getElementById('btn-clear').addEventListener('click', () => {
+            if (confirm('确定要清空所有内容吗？此操作不可撤销。')) {
+                state.rects = [];
+                state.activeRectId = null;
+                refreshRects();
+            }
+        });
+
+        /***** Delete 删除功能 *****/
+        /***** Ctrl+S 保存到 Storage *****/
+        /***** Esc 退出编辑 *****/
+        document.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Delete' && state.activeRectId !== null && !onEditor) {
+                // 删除选中的矩形
+                state.rects = state.rects.filter(r => r.id !== state.activeRectId);
+                state.activeRectId = null;
+                refreshRects();
+            }
+            if (ev.ctrlKey && ev.key === 's' && !onEditor) {
+                ev.preventDefault();
+                document.getElementById('btn-store').click();
+            }
+            if (ev.key === 'Escape' && onEditor) {
+                btn = document.getElementById('close-edit');
+                btn.click();
+            }
+        });
+
+        /***** 点击空白处取消选择 *****/
+        stageWrap.addEventListener('dblclick', (ev) => {
+            // double click on empty area do nothing
+        });
+        stageWrap.addEventListener('click', (ev) => {
+            // if clicked not on a rect element then deselect
+            if (!ev.target.closest('.rect')) deselect();
+        });
+
+        /***** 初始化示例 *****/
+        refreshRects();
+
+        /***** 额外：当 Alt + 鼠标按下在 viewport 区域开始绘制 *****/
+        stageWrap.addEventListener('mousedown', (ev) => onAltMouseDown(ev));
+
+        /***** 全局移动监听用于绘制过程和停止状态 *****/
+        window.addEventListener('mousemove', (ev) => { if (drawing.active) onDrawingMove(ev); });
+
+        /***** 触控友好性：阻止双指滚动默认行为 *****/
+        stageWrap.addEventListener('touchmove', (e) => { if (e.touches.length == 2) e.preventDefault(); });
+
+
+        window.onbeforeunload = function () {
+            return '确定要离开本页面吗？';
+        };
+    </script>
+</body>
+
+</html>

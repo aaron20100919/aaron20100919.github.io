@@ -8,6 +8,29 @@
 
 - children:
     - |
+        ## abc425
+
+        手速据
+
+    - |
+        ## A-E
+
+        水题
+
+    - |
+        ## F
+
+        比E简单，直接状压，golf最后压到了181（c++）。
+
+    - |
+        ## G
+
+        神秘数位dp+01Trie。
+
+        很版
+
+- children:
+    - |
         ## abc418
 
         <table><thead><tr><th class="sort-th no-break sort-asc" style="width: 3%;">Rank</th> <th class="sort-th no-break standings-th-user" style="min-width: 100px;">User</th>  <th class="sort-th no-break" style="width: 60px; min-width: 60px;">Score</th> <th class="sort-th no-break" style="width: 60px; min-width: 60px;"><a href="https://atcoder.jp/contests/abc418/tasks/abc418_a" target="_blank">A</a></th><th class="sort-th no-break" style="width: 60px; min-width: 60px;"><a href="https://atcoder.jp/contests/abc418/tasks/abc418_b" target="_blank">B</a></th><th class="sort-th no-break" style="width: 60px; min-width: 60px;"><a href="https://atcoder.jp/contests/abc418/tasks/abc418_c" target="_blank">C</a></th><th class="sort-th no-break" style="width: 60px; min-width: 60px;"><a href="https://atcoder.jp/contests/abc418/tasks/abc418_d" target="_blank">D</a></th><th class="sort-th no-break" style="width: 60px; min-width: 60px;"><a href="https://atcoder.jp/contests/abc418/tasks/abc418_e" target="_blank">E</a></th><th class="sort-th no-break" style="width: 60px; min-width: 60px;"><a href="https://atcoder.jp/contests/abc418/tasks/abc418_f" target="_blank">F</a></th><th class="sort-th no-break" style="width: 60px; min-width: 60px;"><a href="https://atcoder.jp/contests/abc418/tasks/abc418_g" target="_blank">G</a></th><th class="standings-result-th standings-perf" style="width:84px;min-width:84px;">Performance</th><th class="standings-result-th standings-rate" style="width:168px;min-width:168px;">Rating 变化</th></tr></thead><tr class="info"><td class="standings-rank"><span>180</span> <!----></td> <td class="standings-username"><!---->  <!----> <a href="https://atcoder.jp/users/aaron_small" class="username"><!---->  <span class="user-blue">aaron_small</span></a> <span class="standings-user-btn"><a href=""><span aria-hidden="true" class="glyphicon glyphicon-eye-open black"></span></a> <!----></span> <!----></td>  <td class="standings-result"><p><!----> <span class="standings-score">1550</span> <!----> <!----></p> <!----> <p>40:26</p></td> <td class="standings-result"><p><!----> <span class="standings-ac">100</span> <!----> <!----></p> <!----> <p>7:55</p></td><td class="standings-result"><p><!----> <span class="standings-ac">200</span> <!----> <!----></p> <!----> <p>12:20</p></td><td class="standings-result"><p><!----> <span class="standings-ac">350</span> <!----> <!----></p> <!----> <p>25:40</p></td><td class="standings-result"><p><!----> <span class="standings-ac">425</span> <!----> <!----></p> <!----> <p>28:05</p></td><td class="standings-result"><p><!----> <span class="standings-ac">475</span> <!----> <!----></p> <!----> <p>40:26</p></td><td class="standings-result"><!----> <p>-</p></td><td class="standings-result"><!----> <p>-</p></td><td class="standings-result standings-perf"><span class="user-yellow">2176</span></td><td class="standings-result standings-rate"><span class="bold"><span class="user-blue">1890</span></span> → <span class="bold"><span class="user-blue">1927</span></span> <span class="grey">(+37)</span></td></tr></table>
