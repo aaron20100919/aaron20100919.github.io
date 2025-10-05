@@ -143,7 +143,7 @@
         }
 
         .modal {
-            width: 70%;
+            width: 80%;
             height: 640px;
             background: #fff;
             border-radius: 8px;
@@ -645,7 +645,7 @@
             document.getElementById('h-in').addEventListener('change', (ev) => { r.h = Math.max(4, Number(ev.target.value)); refreshRects(); });
 
             document.getElementById('copy-aligned').addEventListener('click', () => {
-                ta.value += `\n\n$$\n\\begin{aligned}\n\\end{aligned}\n$$`;
+                ta.value += `$$\n\\begin{aligned}\n\\end{aligned}\n$$`;
             });
             document.getElementById('save-edit').addEventListener('click', () => {
                 r.md = ta.value;
@@ -733,7 +733,8 @@
                 ev.preventDefault();
                 document.getElementById('btn-store').click();
             }
-            if (ev.key === 'Escape' && onEditor) {
+            if ((ev.key === 'Escape' || (ev.ctrlKey && ev.key === 's')) && onEditor) {
+                ev.preventDefault();
                 btn = document.getElementById('close-edit');
                 btn.click();
             }
@@ -764,6 +765,26 @@
         window.onbeforeunload = function () {
             return '确定要离开本页面吗？';
         };
+
+        alert = function (text) {
+            Swal.fire({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                },
+                html: text,
+                icon: "info",
+            })
+        }
+
+        const script = document.createElement('script');
+        script.src = 'https://cdn.bootcdn.net/ajax/libs/sweetalert2/11.12.4/sweetalert2.all.min.js';
+        document.head.appendChild(script);
     </script>
 </body>
 

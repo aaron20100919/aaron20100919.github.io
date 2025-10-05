@@ -21,7 +21,7 @@
 
     你需要修改的部分有:
 
-    1. 搜索 `https://cdn.luogu.com.cn/upload/image_hosting/30orb1d0.png` 并换成你的头像
+    1. 搜索 `https://cn.cravatar.com/avatar/dfc1651d3a588760be2dc058e4e30b19?s=400&r=G&d=mp&ver=1759673241` 并换成你的头像
     2. 如果你 ~~厚颜无耻~~ 懒的话, 直接将所有 `aaron20100919` 替换为你的用户名
     3. ~~如果你干了步骤 2, 给我保留个 `example.html` 文件中的 `<footer>` 部分吧~~
     4. 清空 `source` 下的内容, 如果你要写, 请务必再建一层目录
