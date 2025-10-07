@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-    <title>8.13 总结</title>
+    <title>10.7 总结</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
@@ -527,126 +527,122 @@
                 style="font-size: 25px; max-width: none; color: #333;">See
                 source</a>
         </div>
-        <div id="title">8.13 总结</div>
+        <div id="title">10.7 总结</div>
 
         <textarea id="slide-content">---
 - |
-    ## 8.13 总结
+    ## 10.7 总结
 
-    <table><thead><tr><th style="white-space: nowrap;"><span style="cursor: pointer;">排名<i class="icon-arrow-up"></i></span></th><th style="white-space: nowrap;"><span>用户名</span></th><th style="white-space: nowrap; text-align: center;"><span style="cursor: pointer;">分数<i class="icon-resize-vertical"></i></span></th> <th style="text-align: center;"><a href="#contest/show/4448/0">项链</a> <span style="cursor: pointer;"><i class="icon-resize-vertical"></i></span></th><th style="text-align: center;"><a href="#contest/show/4448/1">二进制</a> <span style="cursor: pointer;"><i class="icon-resize-vertical"></i></span></th><th style="text-align: center;"><a href="#contest/show/4448/2">鱼贯而入</a> <span style="cursor: pointer;"><i class="icon-resize-vertical"></i></span></th><th style="text-align: center;"><a href="#contest/show/4448/3">苹果树(apple)</a> <span style="cursor: pointer;"><i class="icon-resize-vertical"></i></span></th></tr></thead><tr><td><strong><span class="label">2</span></strong></td> <td><a href="#users/2023全智贤"><span class="label label-info">2023全智贤</span></a></td> <!----> <td><div class="table-tight-row"><span class="badge badge-info">184</span> <span class="spacing-slash"></span>  <!----></div></td> <td><div class="table-tight-row"><a href="#main/result/1245177"><span class="badge badge-warning">50</span></a> <span class="spacing-slash"></span>  <!----></div> <!----></td><td><div class="table-tight-row"><a href="#main/result/1245320"><span class="badge badge-warning">50</span></a> <span class="spacing-slash"></span>  <!----></div> <!----></td><td><div class="table-tight-row"><a href="#main/result/1245180"><span class="badge badge-warning">84</span></a> <span class="spacing-slash"></span>  <!----></div> <!----></td><td><div class="table-tight-row"><!----> <!----> <!----></div> <!----></td> <!----></tr></table>
+    迟到了 1 小时？
 
-    T2 是乱搞题, 而我只会乱搞题, 然后就 $84$ 了.
+    没有状态，T1 码了 11K，还炸了（$10pts$），没时间推 dp 了。。。
 
-- children:
-    - |
-        ### T1 GMOJ 4366. 【GDKOI2016】项链
-
-        题面:
-
-        > 有一个环形字符串, 你可以扣一段, 要求剩下部分回文且最长.
-
-    - |
-        先用马拉车求出回文串, 然后数据结构随便写一下.
-
-        赛时忙着搞 T3, 没写哈希, 否则能艹过去.
+    [欢迎观摩 477 行 12K 屎山。](https://www.codecopy.cn/post/nkdwhu)
 
 - children:
     - |
-        ### T2 GMOJ 7166. 二进制
+        ### T1 XYD 15193
 
-        <https://www.luogu.com.cn/problem/P4428>
+        就是给定三视图，让你还原一个六连通的立体图。
 
-        赛时 $5 min$ 就开始打表找规律, 还被 XC 质问这么快就开打吗?
+        先把不能放方块的扣掉，然后剩下的部分不一定连通。
 
-    - |
-        你发现只有两者情况不合法, 记 $c$ 为统计 $01$ 的个数.
+        于是我打了神秘的 10K 代码，也就是考虑扣掉一些不连通的部分，however，不是过不了这个样例就是过不了那个样例。
 
-        不合法的情况就是:
+        ~~然后这 10K 有至少 4K 是没卵用的。~~
 
-        $$
-        c_1=1\\
-        c_1\bmod2=1\wedge c_0<2\\
-        $$
+        于是正难则反，考虑保留哪些连通块，dfs 搜出来，在三视图 check。
 
-        然后打线段树就行了.
+        但是 check 打了 $N^3$ 直接炸掉了，少了 $10pts$。
 
-        你发现统计合法数很难, 就统计不合法数.
+        于是改掉，变成 12K。
 
-        赛时因为统计合法数打了个常数为 $24^2=576$ 的线段树被卡成暴力分了.
+        其实调了很久（因为没有可视化，不知道自己的代码在干嘛），将近 11 点，都没时间打 T2、T3 了。
 
-        竟然尼姑评测姬过了...
-
-- children:
-    - |
-        ### T3 GMOJ 6468. 【GDOI2020模拟02.09】鱼贯而入
-
-        题意:
-
-        > 给一个线性探测的哈希表, 给你 $n\le200$ 个数, 希望冲突次数尽可能多(一次失配算一次冲突).
+        下拉关于可视化。
 
     - |
-        #### $45 pts$
+        ##### 关于可视化
 
-        赛时做法 $1$.
+        首先讲一下如何在 ggb 的三次元模式如何使用代码。
 
-        就是想随便试几个数, 设 $\Delta$ 是两个数的差, 就把所有的 $\Delta\times[2,1,\dfrac{1}{2},\dfrac{1}{3},\dfrac{1}{4},\dfrac{1}{6},\dfrac{1}{8}]\pm[0,1,2,3,4]$ 和 $a_i\pm[0,1,2,3,4]$ 都试一遍.
+        > 先描一个点，右键设置他，点进脚本，选拖动结束时，把代码拷进去，然后拖一下。
 
-        同时在卡时限从 $n\to+\infty$ 尽量多地跑, 到 $4s$ 就退.
+        然后根据这个原理，就可以用赋值语句生成立方体了。
 
-        很优秀.
+        给出代码：
 
-    - |
-        #### $84 pts$
+        ```cpp
+        string add(int x, int y, int z)
+        {
+            static int cnt = 0;
+            --x, --y, --z;
+            return "a_{" + to_string(++cnt) + "}=Cube((" + to_string(x) + "," + to_string(y) + "," + to_string(z) + "),(" + to_string(x + 1) +
+                "," + to_string(y) + "," + to_string(z) + "),(" + to_string(x + 1) + "," + to_string(y + 1) + "," + to_string(z) + "))\n";
+        }
 
-        赛时做法 $2$.
-
-        注意到 $len\to n$ 时重合概率很大, 所以就把所有 $n\le len\le40000$ 都试一遍.
-
-        考虑为什么能拿怎么多分(赛时是能过大样例), 因为 $a_i,a_j$ 能重合的前提是 $len\mid\Delta$, 所以我们直接枚举所有 $\Delta$ 的因数即可.
-
-        考虑到本人不会 $\text{pollard-Rho}$ 算法, 所以直接把 $\le1000$ 的质数打出来, 然后判断 $\Delta$ 有没有在这个范围内的因数, 检查一遍即可.
-
-        > 说清楚点: 假设 $\Delta=p\times\Delta'$, 接下来检查它的因数 $\Delta'$, 再递归下去.
-
-        跑得飞快, $118$ 组只总共只跑了 $25s$, 不卡 oj.
-
-    - |
-        #### $100\to??? pts$
-
-        发现只 WA 了一个点, 拎出来单独看一遍, 发现是 $40499\mid\Delta$ 时挂掉了, 把所有 $n\le len\le40000$ 改成 $n\le len\le40500$ 就过了.
-
-        > 注: $40499$ 是质数!!
-
-        啊啊啊啊啊啊啊啊啊啊啊, 痛失 $16 pts$.
-
-    - |
-        #### 正解
-
-        其实很接近正解了...但有谁会去学呢?
-
-        枚举 $1000$ 以内的质因数改成 $\text{pollard-Rho}$ 算法就是正解了.
-
-        也就是说 $\Delta=\Delta_1\times\Delta_2$, 分别递归下去检查.
-
-        话说 $\text{pollard-Rho}$ 难道不是 ~~*随机化乱搞*~~ 吗?
-
-        > 既生 $\text{qzx}$, 何生 $\text{pollard-Rho}$?
+        void visual(int tmp[N][N][N])
+        {
+            for (int i = 1; i <= n; ++i)
+            {
+                for (int j = 1; j <= n; ++j)
+                {
+                    for (int k = 1; k <= n; ++k)
+                    {
+                        if (tmp[i][j][k])
+                        {
+                            cerr << add(k, i, n + 1 - j);
+                        }
+                    }
+                }
+            }
+            cerr << '\n';
+        }
+        ```
 
 - |
-    ### T4 GMOJ 8670. 【2025.08省选模拟】苹果树(apple)
+    ### T2 XYD 15194
 
-    <https://www.luogu.com.cn/problem/P3780>
+    又是神秘概率 dp。
 
-    发现是树上依赖背包, 且白送一条链.
+    题目大意就是你要开门从 0 走到 n，然后卡门后会等概率关上一扇门。
 
-    考虑对正反 dfn 序求出前若干个 dfn 序的最优答案, 再枚举送哪条链.
+    问期望最少开门次数。
 
-    因为免费送的链上的点只能选一个, 直接拆点就行了.
+    设一个 dp，$f_{i,j}$ 表示走到了 $i$，有 $j$ 扇门跑到了后面，转移时 naive 的。
+
+    没有打，以为有后效性被吓到了，实际上多开以维记一下就行。
+
+- |
+    ### T3 XYD 15195
+
+    同上。
+
+    题意就是一个含有 $1\sim n$ 的集合的幂集，问你这个幂集有多少个子集满足每个数至少被选两次。
+
+    正难则反，考虑容斥掉至多选了一个的方案。
+
+    设 $g_{i,j}$ 为有 $i$ 个数至多选了一次，有 $j$ 个数被选了一次。
+
+    类似斯特林转移。
+
+- |
+    ### T4 XYD 15196
+
+    给定序列 $A,B$，多次询问区间 $[L,R]$ 有多少子区间 $[l,r]$ 满足 $\min A_{l,\dots,r}=\min B_{l,\dots,r}\land\max A_{l,\dots,r}=\max B_{l,\dots,r}$。
+
+    有一个 wmd 神秘做法，就是对于所有 $A_i>B_i$，就交换他们，这样限制就被拆开了，（特判掉 $A_i=B_i$ 后），就是 $A$ 区间中最小值出现两次，$B$ 区间中最大值出现两次，有 $64pts$，似乎有前途。
+
+    正解还是正难则反，考虑扣掉不满足的区间，变为扫描线问题。
+
+    依旧是考虑每个数作为最值的极长区间，分别更新。
+
+    好吧，写了这么多还是 $24pts$，不过重要的是思维。
 
 - |
     ## 总评
 
-    乱搞题好玩.
+    多正难则反，不要乱码屎山。
 </textarea>
 
         <div class="button-container">

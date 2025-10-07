@@ -319,7 +319,7 @@
         }
 
         a {
-            color: #0c6386;
+            color: #16bdff;
             text-decoration: none;
             word-wrap: break-word;
             word-break: break-all;
@@ -536,6 +536,51 @@
     q(≧▽≦q)
 
     按时间降序排列...
+
+- children:
+    - |
+        ## ARC 207
+
+        诡异ICPC赛制混入.
+
+    - |
+        ### A
+
+        $n\le100$, 因此 dp
+
+        考虑转化.
+
+        > Also, “the cost of all lamps with cost at least 1 decreases by 1” can be rephrased as “after ighting the i-th lamp, the final MP consumption decreases by the number of unlit lamps with cost t east i.”
+
+        然后发现可以把 $a_i$ 先减到小于 $N$, 就可以跑 $N^4$ 的 dp。
+
+    - |
+        ### B
+
+        构造, 但是题目歧义.
+
+        但我没读错, 他们都把 `the sum of the numbers of all vertices` 看成点数了, 但实际是编号和.
+
+        如果开日文就是 `頂点の番号の総和`.
+
+        简单说就是 $n<6$ 无解, 否则构造二分图.
+
+    - |
+        ### C
+
+        随机化可过.
+
+        就是打一个 $O(n^2)$ 的 dp, 然后发现随机采样 $30$ 个点转移可过.
+
+    - |
+        ### D
+
+        猎奇博弈论, 只保留里面 4x4/3x3/2x3 个点暴力...
+
+    - |
+        ### E
+
+        不会.
 
 - children:
     - |
