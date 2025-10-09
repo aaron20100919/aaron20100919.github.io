@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-    <title>8.10 总结</title>
+    <title>CF2152 总结</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
@@ -527,183 +527,108 @@
                 style="font-size: 25px; max-width: none; color: #333;">See
                 source</a>
         </div>
-        <div id="title">8.10 总结</div>
+        <div id="title">CF2152 总结</div>
 
         <textarea id="slide-content">---
 - |
-    ## 8.10 总结
+    ## CF2152 总结
 
-    额，不好评价。
-
-    <table><thead><tr><th style="white-space: nowrap;"><span style="cursor: pointer;">
-          排名
-          <i class="icon-arrow-up"></i></span></th><th style="white-space: nowrap;"><span>用户名</span></th><th style="white-space: nowrap; text-align: center;"><span style="cursor: pointer;">
-          分数
-          <i class="icon-resize-vertical"></i></span></th> <th style="text-align: center;"><a href="https://gmoj.net/#contest/show/4443/0">叉积（cross）</a> <span style="cursor: pointer;"><i class="icon-resize-vertical"></i></span></th><th style="text-align: center;"><a href="https://gmoj.net/#contest/show/4443/1">波长（hacho）</a> <span style="cursor: pointer;"><i class="icon-resize-vertical"></i></span></th><th style="text-align: center;"><a href="https://gmoj.net/#contest/show/4443/2">排列(permutation)</a> <span style="cursor: pointer;"><i class="icon-resize-vertical"></i></span></th><th style="text-align: center;"><a href="https://gmoj.net/#contest/show/4443/3">捕获（hokaku）｛赛后讨论｝</a> <span style="cursor: pointer;"><i class="icon-resize-vertical"></i></span></th></tr></thead><tr><td><strong><span class="label">12</span></strong></td> <td><a href="https://gmoj.net/#users/2023全智贤"><span class="label label-info">2023全智贤</span></a></td> <!----> <td><div class="table-tight-row"><span class="badge badge-info">88</span> <span class="spacing-slash"></span>  <!----></div></td> <td><div class="table-tight-row"><a href="https://gmoj.net/#main/result/1243006"><span class="badge badge-warning">48</span></a> <span class="spacing-slash"></span>  <!----></div> <!----></td><td><div class="table-tight-row"><a href="https://gmoj.net/#main/result/1243007"><span class="badge badge-warning">30</span></a> <span class="spacing-slash"></span>  <!----></div> <!----></td><td><div class="table-tight-row"><a href="https://gmoj.net/#main/result/1243321"><span class="badge badge-warning">10</span></a> <span class="spacing-slash"></span>  <!----></div> <!----></td><td><div class="table-tight-row"><!----> <!----> <!----></div> <!----></td> <!----></tr></table>
-
-- children:
-    - |
-        ### T1 【2025HL_NOI模拟二】叉积（cross）
-
-        题意:
-
-        > 在平面直角坐标系 $Oxy$ 上有 $n$ 个点 $A_1,A_2,...,A_n$。
-        > $m$ 次询问，每次询问给出一个点 $P$，请找到区间 $[l,r]$，使得 $\sum_{i=l}^r \overrightarrow{OP} \times \overrightarrow{OA_i}$ 最大，并输出这个最大值。
-
-        啊啊啊啊，赛时没看出来叉积有分配律。
-
-        成瞎子了。
-
-    - |
-        正解：
-
-        考虑答案就是 $\max\limits_{1\le l\le r\le n}\overrightarrow{OP}\times\sum\limits_{i=l}^r\overrightarrow{OA_i}$。
-
-        求出后面的凸包就行了。
-
-        如何求呢？
-
-        考虑分治。
-
-        $$
-        \text{res}_{l,r}=\operatorname{convex-hull}(\text{res}_{l,mid}\cap \text{res}_{mid+1,r}\cap(\text{hull}_r-\text{hull}_l))
-        $$
-
-        后面的减法就是闵可夫斯基减。
-
-        <details open class="warning-box" style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 10px; margin: 10px 0; border-radius: 4px;"><summary style="margin-bottom: 10px; font-weight: bold; cursor: pointer;"
-        >Attention</summary>
-
-        答案应该在 $\text{res}_{0,n}$ 上二分。
-        <details open class="warning-box" style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 10px; margin: 10px 0; border-radius: 4px;"><summary style="margin-bottom: 10px; font-weight: bold; cursor: pointer;"
-        >Attention Again</summary>
-
-        要拆成上下两个凸壳二分。
-        <details open class="warning-box" style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 10px; margin: 10px 0; border-radius: 4px;"><summary style="margin-bottom: 10px; font-weight: bold; cursor: pointer;"
-        >Attention Again And Again</summary>
-
-        注意可以不选，答案至少为 $0$。
-        </details>
-        </details>
-        </details>
+    B>CDE，被创飞了。
 
 - |
-    ### T2 【2025HL_NOI模拟二】波长（hacho）
+    ### A
 
-    题意:
+    额，读错题了，以为只能加一。
 
-    > 对于一个序列 $a$，可以对其进行若干次操作，每次将一个数减少 $1$。
-    > 定义 $f_k$ 表示进行 $k$ 次操作后序列的最大子段和最小能达到多少。
-    > 给定 $a, K$，计算 $\sum_{k=1}^K f_k$，答案对 $998244353$ 取模。
+    直接求不同数的数量，特判掉全为 $0$。
 
-    <details open class="warning-box" style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 10px; margin: 10px 0; border-radius: 4px;"><summary style="margin-bottom: 10px; font-weight: bold; cursor: pointer;"
-    >Attention Over And Over Again</summary>
+- |
+    ### B
 
-    注意**不**可以不选，答案可以 $\le0$。
-    </details>
+    恐怖提。
 
-    不废。
+    就是一个四连通走的人被八连通走的人抓，无障碍物，问能苟多久不被抓。
 
-- children:
-    - |
-        ### T3 【2025-02-20.模拟赛】排列(permutation)
+    罚做 $20$ 分钟，以为可以乘抓捕者慢，朝四个方向上逃。
 
-        不好简明概括，就全放了（滚动自取）。
+    显然不可以，因为八连通的人也可以朝你的方向跑，同时还能接近你。
 
-        <details class="info-box" style="background-color: #dcf3ff; border-left: 4px solid #3676ff; padding: 10px; margin: 10px 0; border-radius: 4px;"><summary style="margin-bottom: 10px; font-weight: bold; cursor: pointer;"
-        >题意</summary>
+    再罚做 $20$ 分钟，以为可以跑到边界时，沿着边界移动，多苟一会儿。
 
-        小 $G$ 在期末考试中遇到这样一道题目：
+    但是仔细一想也不对，哎，反正解释不清楚，直接看吧。
 
-        现在有一个长度为 $n$ 的序列 $a$ （**保证n为偶数**）。对于一个长为 $n$ 的排列 $p$，定义 $f(p)$ 如下：
+    > 当两维都不同时，相同的是 Doran 仍然需要到边界才能抓到 Krug。所以 Krug 可以自由选择沿哪一维跑（肯定是 Doran 距离边界较远的那一维），此时因为 Doran 一次能缩短两个维度的距离，所以较大维追上 Krug 时另一维肯定也能追上。
 
-        定义一个长度为 $n$ 的序列 $b$，满足 $b_i=a_{p_i}$
+- |
+    ### C
 
-        现有两个人小 $H$ 和小 $W$ 在博弈，小 $H$ 先手，流程如下：
+    看到样例大胆猜测，$01$ 相间时答案会额外加 $1$。
 
-        $1$.当轮到小 $H$ 操作时，小 $H$ 需要选择一个未被选择的 $1\leq j\leq n$，并将 $b_j$ 加入小 $H$ 自己的分数中
-        $2$.当轮到小 $W$ 操作时，小 $W$ 会选择未被选择的 $1\leq j\leq n$ 中最小的一个 $j$，并将 $b_j$ 加入小 $W$ 自己的分数中
+    前缀和的简单题被我打了一颗线段树秒掉了。
 
-        小 $H$ 想要最大化自己的分数，则 $f(p)$ 为小 $H$ 在最优策略下能得到的最大分数是多少。
+- |
+    ### D
+    
+    题目就是说两个人对一段区间博弈，先手任选一个数 `>>=1`，后手选一个 `++`，全 $1$ 就结束了，先手希望最小化游戏总轮数，后手要阻止祂，问先手最少需要多少轮。
 
-        现在给定 $n$ 与序列 $a$，要你求出 $\sum_{p是[1,2,...,n]的排列}f(p)$ 对 $998244353$ 取模后的结果。
+    欸，如果输入 `2 2 2` 不就无法结束了吗，哦，先后手只能对大于 $1$ 的数进行操作，所以 $1$ 就结束了。
 
-        小 $G$ 看了一眼，觉得这题简直太水了，于是他决定进行加强。
+    我们先求出每个数单独被削成 $1$ 的轮数，答案一定是这个再额外加点什么。
 
-        现在给定你 $n$ 与序列 $a$，接着有 $q$ 次针对 $a$ 序列的修改，每次修改如下：
+    我们称一个数 `++` 后需要的轮数变多了叫做升变，那么大胆猜测答案跟可以升变的数的个数有关。
 
-        给定 $x,y$，表示将 $a_x\gets a_x+y$，保证 $|y|\leq10$
+    那么答案就会额外加上可以升变的数的个数除以二。
 
-        你需要在每次修改后求出原问题的答案。
+    为什么呢，因为后手对同一个数加两次是不优的，而先手肯定会优先削掉会升变的数。
 
-        **保证任意时刻** $\forall 1 \leq i \leq n ,1 \leq a_i\leq 10^6$。
+    然后打了个 `cout << ans1 + ans2 - 1 << '\n';`，就是以为先手只能砍掉一个。
 
-        </details>
+    ~~好吧，yyz 也这样错了。~~
 
-    - |
-        #### 正解：
+    注意到一个数升变后先手就不会优先砍掉他，因为反正后手也不会再加，所以每两轮先手都可以砍掉一个数。
 
-        考虑到只跟相对大小有关，试图求出第 $i$ 大的数会被选多少次，设为 $f_{n,k}$，答案就是 $\sum\limits_{k=1}^{n}f_{n,k}a^{sorted}_i$。
+    所以答案就是 `ans1 + ans2 / 2`。
 
-        然后就有注意力惊人的拉马努金 pwx 瞪出来了。
+- |
+    ### E   
 
-        我只看出了 $f_{n,1}=0,f_{n,2}=2(n-2)!$，剩下的读者自己瞪就可以看出来了。
+    交互，给定一个 $1\sim n^2+1$ 的排列，每次你可以询问一个子序列（可以不连续的）前缀最大值的下标，你要试图找出一个长 $n+1$ 单调子序列，最多问 $n$ 次。
 
-        ~~就知道你们看不出来（逃~~
+    一眼垃圾题，不直接问全排列的前缀最大值，输出前 $n+1$ 个不就结束了吗？哦，我是笨蛋，不要理我。
 
-        <details class="info-box" style="background-color: #dcf3ff; border-left: 4px solid #3676ff; padding: 10px; margin: 10px 0; border-radius: 4px;"><summary style="margin-bottom: 10px; font-weight: bold; cursor: pointer;"
-        >˙pǝǝu noʎ llɐ sᴉ uoᴉʇuǝʇʇ∀</summary>
+    然后就想，如果当前前缀最大值个数大于 $n$，直接输出，否则扣掉这些值继续问。
 
-        设 $f_{n,k}$ 为 $n$ 个数中排名第 $k$ 的贡献。
+    因为每次最多扣掉 $n$ 个，所以 $n$ 此后最多只剩一个，然后从每次扣掉中选一个拼起来就是降序的答案了。
 
-        $$
-        \begin{aligned}
-        f_{n,1}&=0(n-1)!*1\\
-        f_{n,2}&=0(n-1)!*1+2(n-2)!*1\\
-        f_{n,3}&=0(n-1)!*1+2(n-2)!*2+12(n-3)!*1\\
-        f_{n,4}&=0(n-1)!*1+2(n-2)!*3+12(n-3)!*3+96(n-4)!*1\\
-        f_{n,5}&=0(n-1)!*1+2(n-2)!*4+12(n-3)!*6+96(n-4)!*4+960(n-5)!*1\\
-        f_{n,6}&=0(n-1)!*1+2(n-2)!*5+12(n-3)!*10+96(n-4)!*10+960(n-5)!*5+11520(n-6)!*1\\
-        \end{aligned}
-        $$
+    但是选哪一个呢？
 
-        对前 $\frac{n}{2}$ 个数成立。
-        
-        再注意到：$\forall 1\le k\le n,f_{n,k}+f_{n,n-k+1}=n!$。
+    最开始打了每次序列的第一个值，以为祂比后面都大，WA 了三发后发现不对。
 
-        就可以求出 $f_{n,k}$ 了。
-        </details>
+    应该是前缀最大值的最后一个，因为一定是全局最大，又 WA 了三发，直接给我爽了。
 
-        然后呢？怎么优化？
+    哦，最大值不一定最靠前，所以记录下来每个数是第几次扣掉的，然后倒序找就行了。
 
-    - |
-        <details open class="info-box" style="background-color: #dcf3ff; border-left: 4px solid #3676ff; padding: 10px; margin: 10px 0; border-radius: 4px;"><summary style="margin-bottom: 10px; font-weight: bold; cursor: pointer;"
-        >优化</summary>
+    tmd 递归还 MLE 了一次，最后改成循环终于吃了 $7$ 发罚时才过。。。。
 
-        然后找到规律，直接得出 $f_{n,k} = \sum_{i=1}^{k} 2^{i-2}i! \cdot (n - i)! \cdot \binom{k-1}{i-1}$
+- |
+    ### F
 
-        于是化简一下就有 $f_{n,k}=(k-1)!\sum_{i=1}^{k}2^{i-2}(n-i)!i\cdot\frac{1}{(k-i)!}$。
+    看错题了。
 
-        <details open class="warning-box" style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 10px; margin: 10px 0; border-radius: 4px;"><summary style="margin-bottom: 10px; font-weight: bold; cursor: pointer;"
-        >ƃuᴉuɹɐM</summary>
+    题意就是给定不降序列的一段区间，问最多能选出多少个数满足间隔为 $2$ 的数值相差 $>z$，$z$ 和 $n$ 一起给出。
 
-        $2^{-1}$ 计算时看作 $0$。
-        </details>
+    正解就是 ST表套 ST表，太懒了，打了个记搜套 ST表 1.6s 艹过了。
 
-        发现是卷积形式，直接就艹过去了。
+- |
+    ### G H1 H2
 
-        结果只有 $60$ 分。
-
-        用 ds（可以不用）$O(\sum \lvert y\rvert)$ 求出答案即可。
-        
-        </details>
-
+    waiting for judge.
 
 - |
     ## 总评
 
-    $\text{˙pǝǝu noʎ llɐ sᴉ uoᴉʇuǝʇʇ}\forall$
-    </textarea>
+    看英文还是好吃力。。。
+</textarea>
 
         <div class="button-container">
             <button id="preview-btn">预览</button>

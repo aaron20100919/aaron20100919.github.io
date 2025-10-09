@@ -3550,7 +3550,7 @@ font-weight: 500; display: flex; }
 ms: center; padding: 20px; display: flex; }
 
 .ds-sign-in-with-wechat-block__wrapper iframe { border-radius: 8px; width: =
-160px; height: 160px; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 1px, rgba(0, 0=
+160px; height: 160px; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px, rgba(0, 0=
 , 0, 0.02) 0px 0px 4px, rgba(0, 0, 0, 0.06) 0px 12px 36px; }
 
 .ds-sign-in-with-wechat-block__description { color: var(--dsr-text-1,#26262=
@@ -5517,7 +5517,7 @@ play: flex; }
 
 .cookie_banner-wrap { box-sizing: border-box; background: var(--dsr-bg); z-=
 index: 1020; border-radius: 16px; width: calc(100% - 32px); padding: 20px; =
-position: fixed; bottom: 12px; left: 16px; box-shadow: rgba(0, 0, 0, 0.2) 0=
+position: fixed; bottom: 12px; left: 16px; box-shadow: rgba(0, 0, 0, 0.1) 0=
 px 0px 1px, rgba(0, 0, 0, 0.02) 0px 0px 4px, rgba(0, 0, 0, 0.12) 0px 12px 3=
 6px; }
 
@@ -6732,7 +6732,7 @@ portant; }
 .ds-auth-form-wrapper { padding-top: 48px; }
 
 .ds-sign-up-form__main { border-radius: 16px; min-height: 420px; padding: 1=
-2px; display: flex; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 1px, rgba(0, 0, =
+2px; display: flex; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px, rgba(0, 0, =
 0, 0.02) 0px 0px 4px, rgba(0, 0, 0, 0.06) 0px 12px 36px; }
 
 .ds-sign-up-form__main-hero { box-sizing: border-box; flex-direction: colum=
