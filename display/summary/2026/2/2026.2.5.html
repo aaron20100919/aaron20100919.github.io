@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-    <title>Aaron's 极简博客</title>
+    <title>2.5 总结</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
@@ -527,293 +527,34 @@
                 style="font-size: 25px; max-width: none; color: #333;">See
                 source</a>
         </div>
-        <div id="title">Aaron's 极简博客</div>
+        <div id="title">2.5 总结</div>
 
         <textarea id="slide-content">---
-- children:
-    - |
-        # Aaron's 极简博客
-
-        > 本博客基于 `HTML5, CSS3, javascript, python` 等技术实现，欢迎访问！
-
-        向右切幻灯片就是博客内容了，非常低级...
-
-        不定期更新有用没用有卵用没卵用自己捣鼓的垃圾项目。
-
-        偶尔会写一些总结，总之会慢慢充实起来的。
-
-        !!!全屏使用更佳!!!
-        
-        小贴士: 其实幻灯片内是可以滚动的..., 图片加载很慢...
-
-    - |
-        ## 一些说明
-
-        ~~其实就是纯手写，没有任何第三方库和样式，纯粹的原生`HTML5+CSS3+JS`~~
-
-        ~~`python` 是用来线下手动渲染的...~~
-
-        中英文标点符号混用.。.会显得很奇怪，但懒得改了.
-
-        关于幻灯片渲染是因为觉得 UOJ 的幻灯片渲染太高级了，闲的蛋疼就自己弄了一个...
-
-        [免费体验](app/slide.html)
-- children:
-    - |
-        ## 更新日志
-
-        纵向查看 👇
-
-        修了一堆 bug, 还有亿堆, 欢迎提 issue.
-
-        新的 bug:
-
-        1. 一页内只能有一个列表项, 否则会乱了（更不能嵌套）...
-        2. 全屏加上列表项会莫名其掉咕掉，漆黑一团，要四处嗯下才泵的出来？？？
-        3. 列表项嵌套引用会导致样式宽度炸了。。。
-        4. 列表项太烦了
-
-    - |
-
-        可能会做的更新:
-
-        1. 手写一个看板娘
-        2. 将 `style` 扔进一个文件夹
-        3. 干脆把列表项删了。。。这么多 bug
-        4. 写一个 vscode 插件方便预览。
-
-    - |
-
-        ### 2025.8.6
-
-        重设样式。
-
-    - |
-
-        ### 2025.8.5
-
-        支持插入 html 标签了！！
-
-        <details class="info-box" style="background-color: #dcf3ff; border-left: 4px solid #3676ff; padding: 10px; margin: 10px 0; border-radius: 4px;"><summary style="margin-bottom: 10px; font-weight: bold; cursor: pointer;"
-        >这是一个框</summary>
-
-        [教程](/display/other/box.html)
-        </details>
-
-    - |
-
-        ### 2025.8.4
-
-        也是知道咳癌的 $\LaTeX$ 是怎么没掉的了，原来没设置 `max-width`。。。
-
-        把她调教好了。
-
-        同时修改多行公式的颜色。
-
-    - |
-
-        ### 2025.8.2
-
-        | 编号  |           内容           |
-        | :---: | :----------------------: |
-        |   1   | 修了修表格样式, 好看多了 |
-        |   2   |  换了个背景色, 像人样了  |
-
-    - |
-
-        ### 2025.8.1
-
-        增加表格样式(还是很丑)
-
-        删除了上下左右键导航.
-
-    - |
-
-        ### 2025.7.31
-
-        增加评论, 由 giscus 支持.
-
-    - |
-        ### 2025.7.30
-
-        `render\renderIndex.py` 支持嵌套多层了(最好小于 6 层).
-
-        重构了整个目录结构, 新增 `image` 目录.
-
-        增加 `update.md`.
-
-        头像改用 luogu 图床, 访问更快.
-
-        修了修最大宽度.
-
-        将 `build.bat` 拆成两个部分.
-
-        又润了润 `style`
-
-    - |
-        ### 2025.7.29
-
-        润色了一下 `style`, 同时增加了左上角我帅气的头像和朴素导航栏.
-
-        增加了底部的作者信息.
-
-        `render\renderIndex.py` 支持嵌套一层了, 方便分类.
-
-        新增 `build.bat`, 简单化上传.
-
-    - |
-        ### 2025.7.28
-
-        直接通过 `slide.html` 乱写了一个博客...
-
-        增加 `render/*` 一键渲染.
 - |
-    ## other
-    
-    1 [如何书写框框](/display/other/box.html)
+    ### 2.5 总结
 
-    2 [如何搭建一个像这样的博客](/display/other/build.html)
+    太棒了是省选组,但是太不好了因为太难了.
 
-    3 [**CRLMOM 增量游戏结构提纲**](/display/other/crlmom.html)
+    )((提前提醒了是按字典序排的,果断都瞄一眼.
 
-    4 [C++ 调试模板](/display/other/debug.html)
+    第一题 $n\le200$,非正经题,0s过.
 
-    5 [draft: 网页版草稿本](/display/other/draft.html)
+    第二题是博弈论,甚至是构造,极其非人类,思索了一下只有 $m=1$ 的部分分好打,但是脑残了不会.
 
-    6 [乱讲珂朵莉树](/display/other/OTD.html)
+    然后发现第三题非常可做而且数据随机,想了一个笛卡尔树分治左右两边的做法,极其可做,因此直接合并,卡了卡空间就(花了两个多小时)过了.
 
-    7 [手写幻灯片渲染器！！](/display/other/slide.html)
+    然后发现自己不会T2的 $m=1$,准确来说没有手摸出 $r-l+1=5$ 的,搞了半天发现长度是奇数是直接 $a[l+1]=2$ 就行了.
 
-    8 [专注计时器](/display/other/timer.html)
+    最后来看T1,恰好做过动态边双,直接 $\mathcal{O}(2^n\operatorname{poly}(n))$ 做,然后发现自己看错题了求的是 $w$ 的积,改了改乱调 1h 终于跳出来了.
 
-    9 [每日犇犇(发泄)](/display/other/wreak.html)
+    然后以为 $M\le6$ 非常可做,结果非常不可做,但是T2更不可做,只好尝试边双连通分量计数,很明显远超能力所及,开摆.
+
+    最后以 $eps$ 分数之差并列第六,赛后一道都没改,去学了会儿树分块,似乎搞懂了.
 
 - |
-    #### summary/2025/10
-    
-    1 [10.10 总结](/display/summary/2025/10/2025.10.10.html)
+    ### 总结
 
-    2 [10.12 总结](/display/summary/2025/10/2025.10.12.html)
-
-    3 [10.14 总结](/display/summary/2025/10/2025.10.14.html)
-
-    4 [10.17 总结](/display/summary/2025/10/2025.10.17.html)
-
-    5 [10.18 总结](/display/summary/2025/10/2025.10.18.html)
-
-    6 [10.20 总结](/display/summary/2025/10/2025.10.20.html)
-
-    7 [10.22 总结](/display/summary/2025/10/2025.10.22.html)
-
-    8 [10.4 总结](/display/summary/2025/10/2025.10.4.html)
-
-    9 [10.5 总结](/display/summary/2025/10/2025.10.5.html)
-
-    10 [10.7 总结](/display/summary/2025/10/2025.10.7.html)
-
-    11 [10.8 总结](/display/summary/2025/10/2025.10.8.html)
-
-    12 [CF2152 总结](/display/summary/2025/10/2025.10.9.html)
-
-- |
-    #### summary/2025/11
-    
-    1 [11.24 总结](/display/summary/2025/11/2025.11.24.html)
-
-    2 [11.25 总结](/display/summary/2025/11/2025.11.25.html)
-
-    3 [11.27 总结](/display/summary/2025/11/2025.11.27.html)
-
-- |
-    #### summary/2025/7
-    
-    1 [7.29 总结](/display/summary/2025/7/2025.7.29.html)
-
-    2 [7.30 总结](/display/summary/2025/7/2025.7.30.html)
-
-- |
-    #### summary/2025/8
-    
-    1 [8.1 总结](/display/summary/2025/8/2025.8.1.html)
-
-    2 [8.10 总结](/display/summary/2025/8/2025.8.10.html)
-
-    3 [8.12 总结](/display/summary/2025/8/2025.8.12.html)
-
-    4 [8.13 总结](/display/summary/2025/8/2025.8.13.html)
-
-    5 [8.15 总结](/display/summary/2025/8/2025.8.15.html)
-
-    6 [8.17 总结](/display/summary/2025/8/2025.8.17.html)
-
-    7 [8.19 总结](/display/summary/2025/8/2025.8.19.html)
-
-    8 [8.20 总结](/display/summary/2025/8/2025.8.20.html)
-
-    9 [8.22 总结](/display/summary/2025/8/2025.8.22.html)
-
-    10 [8.23 总结](/display/summary/2025/8/2025.8.23.html)
-
-    11 [8.3 总结](/display/summary/2025/8/2025.8.3.html)
-
-    12 [8.5 总结](/display/summary/2025/8/2025.8.5.html)
-
-    13 [8.6 总结](/display/summary/2025/8/2025.8.6.html)
-
-    14 [8.8 总结](/display/summary/2025/8/2025.8.8.html)
-
-- |
-    #### summary/2025/9
-    
-    1 [9.13 总结](/display/summary/2025/9/2025.9.13.html)
-
-    2 [9.30 总结](/display/summary/2025/9/2025.9.30.html)
-
-- |
-    #### summary/2026/1
-    
-    1 [1.13 总结](/display/summary/2026/1/2026.1.13.html)
-
-    2 [1.16 总结](/display/summary/2026/1/2026.1.16.html)
-
-    3 [1.17 总结](/display/summary/2026/1/2026.1.17.html)
-
-    4 [1.24 总结](/display/summary/2026/1/2026.1.24.html)
-
-    5 [1.29 总结](/display/summary/2026/1/2026.1.29.html)
-
-    6 [1.30 总结](/display/summary/2026/1/2026.1.30.html)
-
-    7 [1.5 总结](/display/summary/2026/1/2026.1.5.html)
-
-- |
-    #### summary/2026/2
-    
-    1 [2.1 总结](/display/summary/2026/2/2026.2.1.html)
-
-    2 [2.2 总结](/display/summary/2026/2/2026.2.2.html)
-
-    3 [2.5 总结](/display/summary/2026/2/2026.2.5.html)
-
-- |
-    ## summary
-    
-    1 [ABC 略结](/display/summary/abc.html)
-
-    2 [AGC 略结](/display/summary/agc.html)
-
-    3 [ARC 略结](/display/summary/arc.html)
-
-- |
-    ## tutorial
-    
-    1 [AT_abc417_f の题解](/display/tutorial/AT_abc417_f.html)
-
-- |
-    # 结束了?
-    > 确实, 但内容会渐渐多的...
-    
-    希望大家多多点个 $\text{Star}$ 吧~
+    然后积累了一个小trick,在数据随机的情况下妙妙分治通常能过很多点!
 </textarea>
 
         <div class="button-container">
